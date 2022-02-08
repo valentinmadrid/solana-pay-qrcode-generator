@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true
+  },
+  "dependencies": {
+    "@solana/pay": "^0.1.1",
+    "@solana/web3.js": "^1.33.0",
+    "bignumber.js": "^9.0.2"
+  }
+}
