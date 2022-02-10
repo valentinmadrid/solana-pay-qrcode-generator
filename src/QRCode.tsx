@@ -9,3 +9,5 @@ function QRCode() {
         </div>
     )
 }
+
+export default QRCode;

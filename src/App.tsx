@@ -3,6 +3,7 @@ import './App.css';
 import { Cluster, clusterApiUrl, Connection, PublicKey, Keypair } from '@solana/web3.js';
 import {encodeURL, createQR} from '@solana/pay'
 import BigNumber from 'bignumber.js'
+import QRCode from "./QRCode"
 
 
 
@@ -39,18 +40,8 @@ qrCode.append(element)
   return (
     <div className="App">
       <header className="App-header">
-        <h1>{url}</h1>
-        <h1>What's your wallet adress</h1>
-        
-        <input></input>
-<div id='qrCode'>{qrCode.append}</div>
-        <h1>What's your business's name?</h1>
-        <input></input>
-        <h1>How much do you want to charge</h1>
-        <input></input>
-
-        <h1>Submit</h1>
         <button>Generate QR Code</button>
+        <QRCode />
       </header>
     </div>
   );
