@@ -1,8 +1,8 @@
-import { createRef, useEffect, useState, useRef, useContext } from "react";
+import { createRef, useEffect, useState, useRef, useContext, useLayoutEffect } from "react";
 import {encodeURL, createQR} from '@solana/pay'
 import { PublicKey } from '@solana/web3.js';
 import BigNumber from "bignumber.js";
-import config from "../config.json"
+import config from "./config.json"
 
 
 function QRCode() {
@@ -13,17 +13,25 @@ function QRCode() {
     const label = config.label
     const message = config.message
     const memo = config.memo
+ 
 
-    const qrRef = createRef<HTMLDivElement>();
 
     const url = encodeURL({ recipient, amount, reference, label, message, memo })
     const qrCode = createQR(url);
-    qrCode.append(qrRef.current);
+
+
+    const ref = useRef<HTMLDivElement>(null);
+
+    useLayoutEffect(() => {
+      if (ref.current) {
+        qrCode.append(ref.current);
+      }
+    }, [ref, qrCode]);
     
     return (
 
         <div 
-        ref={qrRef}
+        ref={ref}
         >
         </div>
     )

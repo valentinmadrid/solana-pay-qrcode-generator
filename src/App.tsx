@@ -2,7 +2,7 @@ import React, { FC, useEffect, useLayoutEffect, useMemo, useRef, useState } from
 import './App.css';
 import { Cluster, clusterApiUrl, Connection, PublicKey, Keypair } from '@solana/web3.js';
 import QRCode from "./QRCode"
-import config from "../config.json"
+import config from "./config.json"
 
 
 process.env.REFERENCE = config.reference || ``;
