@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { FC, Fragment, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import './App.css';
 import { Cluster, clusterApiUrl, Connection, PublicKey, Keypair } from '@solana/web3.js';
 import QRCode from "./QRCode"
@@ -12,8 +12,11 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
+  useNavigate,
   Link
 } from "react-router-dom";
+import Streams from './Streams';
+
 
 
 process.env.REFERENCE = config.reference || ``;
@@ -67,12 +70,34 @@ function App() {
   return (
 <Div>
   <Router>
-    <Sidebar />
     <Routes>
-      <Route path='/dashboard' element={<Dashboard />}>
-      </Route>
+      <Fragment>
+
+
+      <Route
+      path="dashboard/*"
+      element={
+        <>
+        <Sidebar />
+        <Dashboard />
+        <RightSidebar />
+        </>
+      }
+    />
+
+      <Route
+        path="auth/login"
+        element={
+          <>
+          <Sidebar />
+          <Dashboard />
+          <RightSidebar />
+          </>
+        }
+      />
+          
+      </Fragment>
     </Routes>
-    <RightSidebar />
   </Router>
 </Div>
 
