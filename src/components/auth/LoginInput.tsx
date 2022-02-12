@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { cardStyle } from "../styles/CardStyle";
 import { BsChevronRight } from "react-icons/bs";
+import { useEffect, useState } from "react"
 
 
 function LoginInput() {
