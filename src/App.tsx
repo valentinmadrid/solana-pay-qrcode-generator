@@ -60,9 +60,6 @@ function App() {
 <Div>
   <Router>
     <Routes>
-      <Fragment>
-
-
       <Route
       path="dashboard/*"
       element={
@@ -73,7 +70,6 @@ function App() {
         </>
       }
     />
-
       <Route
         path="auth/login"
         element={
@@ -82,8 +78,6 @@ function App() {
           </>
         }
       />
-          
-      </Fragment>
     </Routes>
   </Router>
 </Div>
