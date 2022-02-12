@@ -23,14 +23,6 @@ import SideBarRight from "./components/dashboard/SideBarRight"
 
 import Login from "./pages/Login"
 
-process.env.REFERENCE = config.reference || ``;
-process.env.LABEL = config.label || ``;
-process.env.MESSAGE = config.message  || ``;
-process.env.MEMO = config.memo || ``;
-process.env.RECIPIENT = config.recipient || ``;
-
-
-
 function App() {
 
   useEffect(() => {
