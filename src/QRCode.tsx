@@ -27,13 +27,15 @@ function QRCode() {
         qrCode.append(ref.current);
       }
     }, [ref, qrCode]);
+  
     
     return (
-
-        <div 
-        ref={ref}
-        >
-        </div>
+<div>
+  <div 
+    ref={ref}
+      >
+  </div>
+</div>
     )
     
 }

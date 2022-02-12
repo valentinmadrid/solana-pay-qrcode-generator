@@ -1,10 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import Earnings from "./Earnings";
-import Navbar from "./Navbar";
-import Streams from "./Streams";
-import TargetAudience from "./TargetAudience";
-import TopReleases from "./TopReleases";
+
+import Streams from "../components/dashboard/Streams";
 import scrollreveal from "scrollreveal";
 import {
     BrowserRouter as Router,
@@ -12,6 +9,10 @@ import {
     Routes,
     Link
   } from "react-router-dom";
+import Navbar from "../components/dashboard/Navbar";
+import Earnings from "../components/dashboard/Earnings";
+import TopReleases from "../components/dashboard/TopReleases";
+import TargetAudience from "../components/dashboard/TargetAudience";
 
 function Dashboard() {
   useEffect(() => {
@@ -37,15 +38,14 @@ function Dashboard() {
 
     <Section>
 
-      <Navbar />
-
+<Navbar />
       <div className="grid">
         <div className="row">
-          <Streams />
-          <Earnings />
+<Streams />
+<Earnings />
         </div>
         <div className="row2">
-          <TargetAudience />
+        <TargetAudience />
           <TopReleases />
         </div>
       </div>

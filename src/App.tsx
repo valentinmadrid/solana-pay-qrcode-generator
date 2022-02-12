@@ -1,13 +1,12 @@
 import React, { FC, Fragment, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import './App.css';
+
 import { Cluster, clusterApiUrl, Connection, PublicKey, Keypair } from '@solana/web3.js';
 import QRCode from "./QRCode"
-import Sidebar from "./Sidebar"
+
 import config from "./config.json"
 import styled from "styled-components";
 import scrollreveal from "scrollreveal";
-import Dashboard from "./Dashboard"
-import RightSidebar from './RightSidebar';
+
 import {
   BrowserRouter as Router,
   Route,
@@ -15,9 +14,14 @@ import {
   useNavigate,
   Link
 } from "react-router-dom";
-import Streams from './Streams';
+import Streams from './components/dashboard/Streams';
 
+//Dashboard
+import SideBarLeft from "./components/dashboard/SideBarLeft"
+import Dashboard from './pages/Dashboard';
+import SideBarRight from "./components/dashboard/SideBarRight"
 
+import Login from "./pages/Login"
 
 process.env.REFERENCE = config.reference || ``;
 process.env.LABEL = config.label || ``;
@@ -60,13 +64,6 @@ function App() {
     );
   }, []);
 
-  async function main() {
-      let paymentStatus: string;
-      console.log('1. ✅ Establish connection to the network');
-      const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
-  }
-
-
   return (
 <Div>
   <Router>
@@ -78,9 +75,9 @@ function App() {
       path="dashboard/*"
       element={
         <>
-        <Sidebar />
+        <SideBarLeft />
         <Dashboard />
-        <RightSidebar />
+        <SideBarRight />
         </>
       }
     />
@@ -89,9 +86,7 @@ function App() {
         path="auth/login"
         element={
           <>
-          <Sidebar />
-          <Dashboard />
-          <RightSidebar />
+          <Login />
           </>
         }
       />

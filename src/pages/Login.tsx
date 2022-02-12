@@ -1,18 +1,19 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import Earnings from "../Earnings";
-import Navbar from "../Navbar";
-import Streams from "../Streams";
-import TargetAudience from "../TargetAudience";
-import TopReleases from "../TopReleases";
+
+import Streams from "../components/dashboard/Streams";
+
 import scrollreveal from "scrollreveal";
+
+import LoginInput from "../components/auth/LoginInput";
+
 import {
     BrowserRouter as Router,
     Route,
     Routes,
     Link
   } from "react-router-dom";
-import Sidebar from "../Sidebar";
+
 
 function Login() {
     useEffect(() => {
@@ -38,19 +39,12 @@ function Login() {
     return (
 
         <Section>
-          <Navbar />
-    
           <div className="grid">
             <div className="row">
-              <Streams />
-              <Earnings />
-            </div>
-            <div className="row2">
-              <TargetAudience />
-              <TopReleases />
+              <LoginInput />
+
             </div>
           </div>
-    
         </Section>
     
       );

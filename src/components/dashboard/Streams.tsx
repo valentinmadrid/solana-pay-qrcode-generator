@@ -1,12 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { applyCardStyles } from "../../ReusableStyles";
+import { cardStyle } from "../styles/CardStyle";
 import { AreaChart, Area, Tooltip, ResponsiveContainer } from "recharts";
 
-import logo1 from "./assets/logo1.png";
-import logo2 from "./assets/logo2.png";
-import logo3 from "./assets/logo3.png";
-import logo4 from "./assets/logo4.png";
+
 
 function Streams() {
   const data = [
@@ -165,29 +162,11 @@ function Streams() {
     },
   ];
 
-  const sliderData = [
-    {
-      image: logo1,
-      serviceName: "Sound Cloud",
-    },
-    {
-      image: logo2,
-      serviceName: "Spotify",
-    },
-    {
-      image: logo3,
-      serviceName: "Youtube Music",
-    },
-    {
-      image: logo4,
-      serviceName: "Apple Music",
-    },
-  ];
   return (
     <Section>
       <div className="title-container">
         <div className="title">
-          <h4>Streams</h4>
+          <h4>Your income</h4>
           <h1>450,210</h1>
         </div>
       </div>
@@ -225,7 +204,7 @@ function Streams() {
 }
 
 const Section = styled.section`
-  ${applyCardStyles}
+  ${cardStyle}
   color:white;
   .title-container {
     display: flex;
