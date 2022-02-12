@@ -8,7 +8,7 @@ function RightSidebar() {
     <Section id="rightSidebar">
       <Avatar />
       <ActiveListeners />
-      <Player />
+
     </Section>
   );
 }

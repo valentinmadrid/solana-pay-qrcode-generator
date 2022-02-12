@@ -58,7 +58,7 @@ function Dashboard() {
 const Section = styled.section`
   height: 100%;
   width: 100%;
-  background-color: rgba(3, 3, 27, 0.7);
+  background-color: rgba(82, 88, 205, 0.7);
 
   .grid {
     padding: 2rem;
