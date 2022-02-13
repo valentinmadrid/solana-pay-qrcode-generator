@@ -22,6 +22,7 @@ import Dashboard from './pages/Dashboard';
 import SideBarRight from "./components/dashboard/SideBarRight"
 
 import Login from "./pages/Login"
+import Profile from './pages/Profile';
 
 function App() {
 
@@ -67,6 +68,14 @@ function App() {
         <SideBarLeft />
         <Dashboard />
         <SideBarRight />
+        </>
+      }
+    />
+      <Route
+      path="profile"
+      element={
+        <>
+<Profile />
         </>
       }
     />

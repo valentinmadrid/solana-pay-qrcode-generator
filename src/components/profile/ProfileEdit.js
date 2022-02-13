@@ -4,54 +4,40 @@ import { cardStyle } from "../styles/CardStyle";
 import { BsChevronRight } from "react-icons/bs";
 import { useEffect, useState } from "react"
 import { supabase } from "../../client"
+import { Navigate } from 'react-router-dom';
 
-function LoginInput() {
+function ProfileEdit() {
+const [profile, setProfile] = useState(null)
 
-const [email, setEmail] = useState('')
+useEffect(() => {
+    fetchProfile()
+}, [])
 
-const [submitted, setSubmitted] = useState(false)
+async function fetchProfile() {
+    const profileData = await supabase.auth.user()
+    console.log("profileData: ", profileData)
+    if (!profileData) {
+    return <Navigate to="/login" />;
+} else {
+    setProfile(profileData)
+  }
+}
 
-  function handleSubmit(event) {
-        event.preventDefault()
+if (!profile) return null
 
-    }
 
-    async function signIn() {
-      if (!email) return;
-      const { error } = await supabase.auth.signIn({
-        email
-      })
-      if (error) {
-        console.log(error) }
-        else {
-        setSubmitted(true)
-      }
-    }
-    if (submitted) {
-      return (
-        <div>
-          <h1>Please check your email to sign in.</h1>
-        </div>
-      )
-    }
 
   return (
     <Section>
       <div className="title-container">
         <div className="title">
-          <h4>Login</h4>
+          <h1>My profile</h1>
+          <p>Hello {profile.email}</p>
+          <p>userid: {profile.id}</p>
         </div>
-<form onSubmit={signIn}>
-    <input
-        onChange={e=> setEmail(e.target.value)}
-        type="text"
-        placeholder="eMail adress"
 
-        name="email"
-    />
-<button onClick={() => signIn()}> sign in </button>
 
-</form>
+
           );
 
       </div>
@@ -128,4 +114,4 @@ const Section = styled.section`
   }
 `;
 
-export default LoginInput;
+export default ProfileEdit;
