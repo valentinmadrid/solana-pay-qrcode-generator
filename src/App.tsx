@@ -7,6 +7,8 @@ import config from "./config.json"
 import styled from "styled-components";
 import scrollreveal from "scrollreveal";
 
+import { supabase } from './client';
+
 import {
   BrowserRouter as Router,
   Route,
@@ -24,7 +26,40 @@ import SideBarRight from "./components/dashboard/SideBarRight"
 import Login from "./pages/Login"
 import Profile from './pages/Profile';
 
+
 function App() {
+
+  const [authenticatedstate, setAuthenticatedState] = useState('not authenticated')
+async function checkUser() {
+  const user = await supabase.auth.user() 
+  if (user) {
+    setAuthenticatedState('authenticated')
+  }
+}
+
+async function handleAuthChange(event, session) {
+  await fetch('/api/auth', {
+    method: 'POST',
+    headers: new Headers({ 'Content-Type': 'application/json' }),
+    credentials: 'same-origin',
+    body: JSON.stringify({ event, session }),
+  })
+}
+  useEffect(() => {
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+      handleAuthChange(event, session)
+      if (event === 'SIGNED_IN') {
+        setAuthenticatedState('authenticated')
+      }
+      if (event === 'SIGNED_OUT') {
+        setAuthenticatedState('not-authenticated')
+      }
+    })
+    checkUser()
+    return () => {
+      authListener.unsubscribe()
+    }
+  }, [])
 
   useEffect(() => {
     const sr = scrollreveal({
