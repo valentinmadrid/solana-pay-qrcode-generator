@@ -55,10 +55,7 @@ async function handleAuthChange(event, session) {
         setAuthenticatedState('not-authenticated')
       }
     })
-    checkUser()
-    return () => {
-      authListener.unsubscribe()
-    }
+
   }, [])
 
   useEffect(() => {
