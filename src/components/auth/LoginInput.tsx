@@ -4,36 +4,44 @@ import { cardStyle } from "../styles/CardStyle";
 import { BsChevronRight } from "react-icons/bs";
 import { useEffect, useState } from "react"
 import { supabase } from "../../client"
+import { SiGnuprivacyguard } from "react-icons/si";
+import { Navigate, useNavigate } from "react-router-dom";
+import Dashboard from "../../pages/Dashboard";
 
 function LoginInput() {
 
 const [email, setEmail] = useState('')
+const [password, setPassword] = useState('')
 
 const [submitted, setSubmitted] = useState(false)
 
-  function handleSubmit(event) {
-        event.preventDefault()
+async function SignIn(email, password) {
+  const navigate = useNavigate()
+  try{
+  if (!email) return;
+  const { error } = await supabase.auth.signIn(email, password)
+  if(error) throw error
+  navigate('/dashboard')
+  }
+  catch(error){
+    alert(error)
+  }
+}
 
-    }
+async function SignUp(email, password, event) {
+  const navigate = useNavigate()
+  event.preventDefault()
+  if (!email) return;
+  try{
+  const { error } = await supabase.auth.signUp(email, password)
+  if(error) throw error
+  navigate('/dashboard')
+  }
+  catch(error){
+    alert(error)
+  }
+}
 
-    async function signIn() {
-      if (!email) return;
-      const { error } = await supabase.auth.signIn({
-        email
-      })
-      if (error) {
-        console.log(error) }
-        else {
-        setSubmitted(true)
-      }
-    }
-    if (submitted) {
-      return (
-        <div>
-          <h1>Please check your email to sign in.</h1>
-        </div>
-      )
-    }
 
   return (
     <Section>
@@ -41,18 +49,25 @@ const [submitted, setSubmitted] = useState(false)
         <div className="title">
           <h4>Login</h4>
         </div>
-<form onSubmit={signIn}>
+<form>
     <input
         onChange={e=> setEmail(e.target.value)}
         type="text"
         placeholder="eMail adress"
-
-        name="email"
+        value={email}
     />
-<button onClick={() => signIn()}> sign in </button>
+        <input
+        onChange={e=> setPassword(e.target.value)}
+        type="password"
+        placeholder="password"
+        value={password}
+    />
+
+<button onClick={() => SignIn(email, password)}> sign in </button>
+<button onClick={() => SignUp(email, password)}>Sign Up</button>
 
 </form>
-          );
+   
 
       </div>
     </Section>
