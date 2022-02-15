@@ -1,9 +1,0 @@
-
-{ 
-    "amount" : 1,
-    "reference" : "CuieVDEDtLo7FypA9SbLM9saXFdb1dsshEkyErMqkRQq",
-    "label" : "My cool store",
-    "message" : "My cool store - your order - #111111",
-    "memo" : "Client #1111",
-    "recipient" : "CuieVDEDtLo7FypA9SbLM9saXFdb1dsshEkyErMqkRQq"
-}
