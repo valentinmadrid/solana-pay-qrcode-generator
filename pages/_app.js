@@ -48,7 +48,7 @@ function MyApp({ Component, pageProps }) {
         </Link>
         {
           authenticatedState === 'not-authenticated' && (
-            <Link href="/auth">
+            <Link href="/login">
               <a style={linkStyle}>Login</a>
             </Link>
           )
