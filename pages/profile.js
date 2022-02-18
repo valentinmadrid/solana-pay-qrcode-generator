@@ -12,28 +12,26 @@ const Profile = () => {
     const fetchProfile = async() => {
         const profileData = await supabase.auth.user()
         if (!profileData) {
-            router.push('/auth')
+            router.push('/login')
         } else {
             setProfile(profileData)
         }
     }
+    async function signOut() {
+        await supabase.auth.signOut()
+        router.push('/login')
+      }
+
     if(!profile) return null;
     return(
     <div>
     <h1>Your profile</h1>
     <p>email: {profile.email}</p>
+    <input type="text" placeholder={profile.email} />
+    <button onClick={signOut}>sign out</button>
     </div>
     )
 }
 
-export async function getServerSideProps({ req }) {
-    const { user } = await supabase.auth.api.getUserByCookie(req)
-  
-    if (!user) {
-      return { props: {}, redirect: { destination: '/auth' } }
-    }
-  
-    return { props: { user } }
-  }
 
 export default Profile;
