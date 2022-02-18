@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react"
 import { createClient } from "@supabase/supabase-js"
 import { supabase } from "../client"
+import { useRouter } from "next/router"
 
 
 const Auth = () => {
+    const router = useRouter()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -12,7 +14,7 @@ const Auth = () => {
     
     }, [email, password])
     
-    async function signIn() {
+    const signIn = async() => {
         const { user, session, error } = await supabase.auth.signUp({
             email,
             password
@@ -21,10 +23,11 @@ const Auth = () => {
             console.log(error)
         } else {
             console.log("logged in")
+            router.push('/profile')
         }
     }
 
-    async function signUp() {
+    const signUp = async() => {
         const { user, session, error } = await supabase.auth.signUp({
             email,
             password
