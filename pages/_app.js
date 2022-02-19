@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { supabase } from '../client'
 import { useRouter } from 'next/router'
 
+
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
   const [authenticatedState, setAuthenticatedState] = useState('not-authenticated')
@@ -38,25 +39,9 @@ function MyApp({ Component, pageProps }) {
     })
   }
   return (
+
     <div>
-      <nav style={navStyle}>
-        <Link href="/">
-          <a style={linkStyle}>Home</a>
-        </Link>
-        <Link href="/profile">
-          <a style={linkStyle}>Profile</a>
-        </Link>
-        {
-          authenticatedState === 'not-authenticated' && (
-            <Link href="/login">
-              <a style={linkStyle}>Login</a>
-            </Link>
-          )
-        }
-        <Link href="/profile">
-          <a style={linkStyle}>Profile</a>
-        </Link>
-      </nav>
+
       <Component {...pageProps} />
     </div>
   )
