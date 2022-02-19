@@ -1,4 +1,5 @@
-import Sidebar from "../components/dashboard/sidebar"
+import Sidebar from "../components/dashboard/Sidebar"
+import Main from "../components/dashboard/Main"
 import { useEffect, useState } from "react"
 import { Router, useRouter } from "next/router";
 import { supabase } from "../client";
@@ -20,12 +21,12 @@ const Dashboard = () => {
     }
 
     return (
-        <body>
+
         <div className="container">
         <Sidebar />
-        <h1>Dashboard</h1>
+        <Main />
         </div>
-        </body>
+
 
     )
 }
