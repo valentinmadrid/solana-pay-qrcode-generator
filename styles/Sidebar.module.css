@@ -1,0 +1,59 @@
+aside .sideBar {
+    background: white;
+    display: flex;
+    flex-direction: column;
+    height: 86vh;
+    position: relative;
+    top: 3rem;
+}
+
+
+
+aside .sideBar a {
+    display: flex;
+    color: var(--color-info-dark);
+    margin-left: 2rem;
+    gap: 1rem;
+    align-items: center;
+    position: relative;
+    height: 3.7rem;
+    transition: all 300 ms ease;
+}
+
+aside .sideBar a span {
+    font-size: 1.6rem;
+}
+
+aside .sideBar a:last-child {
+    position: absolute;
+    bottom: 2rem;
+    width: 100%;
+}
+
+aside .sideBar a.active {
+    background: black;
+    color: var(--color-primary);
+    margin-left: 0;
+}
+
+aside .sideBar a.active::before {
+    content: '';
+    width: 6px;
+    height: 100%;
+    background: var(--color-primary);
+}
+
+aside .sideBar a.active span {
+    color: var(--color-primary);
+    margin-left: calc(1rem-3px);
+}
+
+aside .sideBar a:hover {
+    color:var(--color-primary)
+}
+
+aside .sideBar a:hover .navIcon {
+    margin-left: 1rem;
+}
+
+
