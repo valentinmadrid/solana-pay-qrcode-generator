@@ -1,0 +1,6 @@
+.greeting {
+    align-self: auto;
+    display: flex;
+    margin-left: 100vh;
+    width: auto;
+}
