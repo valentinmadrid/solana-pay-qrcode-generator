@@ -1,9 +1,9 @@
-import { useState } from "react"
 import { supabase } from "../../client";
 import Home from "../../pages";
 import styles from '../../styles/Home.module.css'
 import MoneyIcon from '@material-ui/icons/Money';
-
+import { useEffect, useState } from "react";
+import { Router, useRouter } from "next/router";
 
 const Main = () => {
     const [transactions, setTransactions] = useState('')
@@ -18,7 +18,24 @@ const Main = () => {
     }
 
     const totalProfit = '12, 880$'
+    const [profile, setProfile] = useState(null)
+    
+    useEffect(() => {
+        fetchProfile()
+    }, [])
+    
+    const router = useRouter()
+    const fetchProfile = async() => {
+        const profileData = await supabase.auth.user()
+        if (!profileData) {
+            router.push('/login')
+        } else {
+            setProfile(profileData)
+        }
+    }
 
+
+    if(!profile) return null;
     return (
 <main>
   <h1>Dashoard</h1>
