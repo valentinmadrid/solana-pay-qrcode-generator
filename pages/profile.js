@@ -4,6 +4,7 @@ import { Router, useRouter } from "next/router";
 
 const Profile = () => {
     const [profile, setProfile] = useState(null)
+    
     useEffect(() => {
         fetchProfile()
     }, [])

@@ -3,6 +3,7 @@ import Main from "../components/dashboard/Main"
 import { useEffect, useState } from "react"
 import { Router, useRouter } from "next/router";
 import { supabase } from "../client";
+import Rightbar from "../components/dashboard/Rightbar";
 
 
 const Dashboard = () => {
@@ -25,6 +26,7 @@ const Dashboard = () => {
         <div className="container">
         <Sidebar />
         <Main />
+        <Rightbar />
         </div>
 
 
