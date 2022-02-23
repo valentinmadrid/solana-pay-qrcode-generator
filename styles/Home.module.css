@@ -1,6 +1,4 @@
-main {
-  margin-top: 1.4rem;
-}
+
 
 main .date {
   display: inline-block;
@@ -110,4 +108,44 @@ main .insights .progress .number {
 main .insights small {
   margin-top: 1.3rem;
   display: block;
+}
+
+main .recentorders {
+  margin-top: 2rem;
+}
+
+main .recentorders h2 {
+  margin-bottom: 0.8rem;
+}
+
+main .recentorders table {
+  background: var(--color-white);
+  width: 100%;
+  border-radius: var(--card-border-radius);
+  padding: var(--card-padding);
+  text-align: center;
+  box-shadow: var(--box-shadow);
+  transition: all 300ms ease;
+}
+
+main .recentorders table:hover {
+  box-shadow: none;
+}
+
+main table tbody .td {
+  height: 2.8rem;
+  border-bottom: 1px solid var(--color-light);
+  color: var(--color-dark-variant);
+}
+
+main table tbody .tr:last-child td {
+  border: none;
+}
+
+
+main .recentorders a {
+  text-align: center;
+  display: block;
+  margin: 1rem auto;
+  color: var(--color-primary);
 }
