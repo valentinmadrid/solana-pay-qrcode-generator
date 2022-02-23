@@ -6,7 +6,8 @@ import { supabase } from '../client'
 const signUp = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [name, setName] = useState('')
+  const [firstName, setFirstName] = useState('')
+  const [secondName, setSecondName] = useState('')
   const [submitted, setSubmitted] = useState(false)
   async function signIn() {
     const { error, data } = await supabase.auth.signUp({
@@ -15,7 +16,8 @@ const signUp = () => {
     },
     {
         data: { 
-          name
+          first_name: firstName,
+          second_name: secondName,
         }
     }
     )
@@ -34,27 +36,39 @@ const signUp = () => {
   }
 
   return (
-    <div className={styles.container}>
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Sign In
-        </h1>
-        <input
+<main>
+  <h1>Sign Up</h1>
+  <div className={styles.insights}>
+    <div className={styles.sales}>
+      <div className={styles.middle}>
+        <div className={styles.left}>
+          <h3>Sign Up</h3>
+          <input
           onChange={e => setEmail(e.target.value)}
           style={{ margin: 10 }}
         />
-        <input
+                <input
           onChange={e => setPassword(e.target.value)}
           style={{ margin: 10 }}
         />
+        <br />
         <input
-          placeholder='Name'
-          onChange={e => setName(e.target.value)}
+          placeholder='First Name'
+          onChange={e => setFirstName(e.target.value)}
+          style={{ margin: 10 }}
+        />
+        <input
+          placeholder='Last Name'
+          onChange={e => setSecondName(e.target.value)}
           style={{ margin: 10 }}
         />
         <button onClick={() => signIn()}>Sign In</button>
-       </main>
+        </div>
+      </div>
+      <small className={styles.textmuted}>Last 24 Hours</small>
     </div>
+    </div>
+    </main>
   )
 }
 
