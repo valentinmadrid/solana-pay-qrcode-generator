@@ -1,6 +1,27 @@
 import styles from '../../styles/Rightbar.module.css'
 import DashboardSharp from '@material-ui/icons/DashboardSharp'
+import { useEffect, useState } from 'react'
+import { Router, useRouter } from "next/router";
+import { supabase } from "../../client";
 const Rightbar = () => {
+  const [profile, setProfile] = useState(null)
+    
+  useEffect(() => {
+      fetchProfile()
+  }, [])
+  
+  const router = useRouter()
+  const fetchProfile = async() => {
+      const profileData = await supabase.auth.user()
+      if (!profileData) {
+          router.push('/login')
+      } else {
+          setProfile(profileData)
+      }
+  }
+
+
+  if(!profile) return null;
     return (
         <div className={styles.right}>
   <div className={styles.top}>
@@ -14,7 +35,7 @@ const Rightbar = () => {
     <div className={styles.profile}>
       <div className={styles.info}>
         <p>
-          Hey, <b>Daniel</b>
+          Hey, <b>{profile.name}</b>
         </p>
         <small className={styles.textmuted}>Admin</small>
       </div>
