@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import styles from '../styles/Home.module.css'
+import styles from '../styles/Auth.module.css'
 
 import { supabase } from '../client'
 
@@ -43,21 +43,24 @@ const signUp = () => {
       <div className={styles.middle}>
         <div className={styles.left}>
           <h3>Sign Up</h3>
-          <input
+          <input className={styles.input}
+          type='email'
+          placeholder='Email'
           onChange={e => setEmail(e.target.value)}
           style={{ margin: 10 }}
         />
-                <input
+          <input className={styles.input}
+          placeholder='Password'
           onChange={e => setPassword(e.target.value)}
           style={{ margin: 10 }}
         />
         <br />
-        <input
+        <input className={styles.input}
           placeholder='First Name'
           onChange={e => setFirstName(e.target.value)}
           style={{ margin: 10 }}
         />
-        <input
+        <input className={styles.input}
           placeholder='Last Name'
           onChange={e => setSecondName(e.target.value)}
           style={{ margin: 10 }}
@@ -65,7 +68,6 @@ const signUp = () => {
         <button onClick={() => signIn()}>Sign In</button>
         </div>
       </div>
-      <small className={styles.textmuted}>Last 24 Hours</small>
     </div>
     </div>
     </main>
