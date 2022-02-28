@@ -9,42 +9,21 @@ const Sidebar = () => {
 
   </div>
   <div className={styles.sidebar}>
-    <a href="#">
+    <a href="/dashboard">
       <DashboardSharp />
       <h3>Dashboard</h3>
     </a>
-    <a href="#" className={styles.active}>
-      <DashboardSharp />
-      <h3>Customers</h3>
-    </a>
-    <a href="#">
-      <DashboardSharp />
-      <h3>Orders</h3>
-    </a>
-    <a href="#">
-      <DashboardSharp />
-      <h3>Analytics</h3>
-    </a>
-    <a href="#">
-      <DashboardSharp />
-      <h3>Messages</h3>
-      <span className={styles.messagecount}>26</span>
-    </a>
-    <a href="#">
-      <DashboardSharp />
-      <h3>Products</h3>
-    </a>
-    <a href="#">
-      <DashboardSharp />
-      <h3>Reports</h3>
-    </a>
-    <a href="#">
+    <a href="/settings" className={styles.active}>
       <DashboardSharp />
       <h3>Settings</h3>
     </a>
-    <a href="#">
+    <a href="/coupons">
       <DashboardSharp />
-      <h3>Add Product</h3>
+      <h3>Coupons</h3>
+    </a>
+    <a href="/transactions">
+      <DashboardSharp />
+      <h3>Transactions</h3>
     </a>
     <a href="#">
       <DashboardSharp />
