@@ -2,6 +2,7 @@ import styles from '../../styles/Home.module.css'
 import MoneyIcon from '@material-ui/icons/Money';
 import { useEffect, useState } from 'react';
 import { supabase } from '../../client';
+import Transactions from '../../pages/transactions';
 
 const TransactionsComponent = () => {
   const [loading, setLoading] = useState(true)
@@ -9,6 +10,11 @@ const TransactionsComponent = () => {
   const [storeName, setStoreName] = useState(null)
   const [url, setUrl] = useState(null)
   const [description, setDescription] = useState(null)
+    const transactions = [
+      { id: 1, name: "John Doe" },
+      { id: 2, name: "Victor Wayne" },
+      { id: 3, name: "Jane Doe" },
+    ];
 
   useEffect(() => {
     fetchData()
@@ -21,7 +27,7 @@ const TransactionsComponent = () => {
 
 
     let { data, error, status } = await supabase
-    .from('stores')
+    .from('transactions')
     .select(`wallet, url, name`, `description`)
     .eq('owner', user.id)
     .single()
@@ -75,13 +81,15 @@ const TransactionsComponent = () => {
         </tr>
       </thead>
       <tbody>
+        {transactions.map((transactions) => (
          <tr className="tr">
                       <td>Foldable Mini Drone</td>
-                      <td>85631</td>
+                      <td>{transactions.id}</td>
                       <td>Due</td>
                       <td class="warning">Pending</td>
                       <td class="primary">Details</td>
                   </tr>
+        ))}
                   <tr className="tr">
                       <td>Foldable Mini Drone</td>
                       <td>85631</td>
