@@ -20,7 +20,12 @@ const Payment = () => {
     const [amount, setAmount] = useState(1)
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const ref = useRef(null)
-    const [wallet1, setWallet1] = useState(new PublicKey(''))
+    const [recipient, setRecipient] = useState(new PublicKey(''));
+    const [transactionAmount, setTransactionAmount] = useState(new BigNumber(0));
+    const [reference, setReference] = useState(new Keypair().publicKey);
+    const [label, setLabel] = useState('');
+    const [message, setMessage] = useState('');
+    const [memo, setMemo] = useState('');
 
     async function connect() {
         const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
@@ -66,13 +71,7 @@ const generateQr = () => {
 }
 
 useEffect(() => {
-        const recipient = new PublicKey(wallet);
-        const transactionamount = new BigNumber(amount);
-        const reference = new Keypair().publicKey;
-        const label = storeName;
-        const message = transactionDescription;
-        const memo = storeName + "#";
-        
+        setRecipient(new PublicKey(wallet))
         if (currency === 'SOL') {
             let splToken = new PublicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v');
         } else if (currency === 'USDC') {
@@ -84,7 +83,7 @@ useEffect(() => {
         }
         
         setModalIsOpen(true)
-        const qrUrl = encodeURL({ recipient, transactionamount, splToken, reference, label, message, memo });
+        const qrUrl = encodeURL({ recipient, transactionAmount, splToken, reference, label, message, memo });
         const qrCode = createQR(url);
     qrCode?.append(ref.current)
   }, [generateQr])
