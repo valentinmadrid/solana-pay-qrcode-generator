@@ -1,8 +1,14 @@
-import { supabase } from "../client";
+import Rightbar from "../components/dashboard/Rightbar";
+import Sidebar from "../components/dashboard/Sidebar";
+import CustomerComponent from "../components/dashboard/CustomerComponent";
+
 const Customers = () => {
-const [profile, setProfile] = ''
-    return(
-        <h1>Customers</h1>
+    return (
+        <div className="container">
+        <Sidebar />
+        <CustomerComponent />
+        <Rightbar />
+        </div>
     )
 }
 
