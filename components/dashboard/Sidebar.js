@@ -1,8 +1,11 @@
 import CloseIcon from '@material-ui/icons/Close';
 import DashboardSharp from '@material-ui/icons/DashboardSharp';
 import styles from '../../styles/Sidebar.module.css'
+import { useRouter } from "next/router";
 
 const Sidebar = () => {
+  const router = useRouter();
+  const selected = router.query.selected
     return (
 <aside>
   <div className={styles.top}>
@@ -13,7 +16,7 @@ const Sidebar = () => {
       <DashboardSharp />
       <h3>Dashboard</h3>
     </a>
-    <a href="/settings" className={styles.active}>
+    <a href="/settings">
       <DashboardSharp />
       <h3>Settings</h3>
     </a>
