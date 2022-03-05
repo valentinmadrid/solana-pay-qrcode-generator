@@ -10,11 +10,7 @@ const TransactionsComponent = () => {
   const [storeName, setStoreName] = useState(null)
   const [url, setUrl] = useState(null)
   const [description, setDescription] = useState(null)
-    const transactions = [
-      { id: 1, name: "John Doe" },
-      { id: 2, name: "Victor Wayne" },
-      { id: 3, name: "Jane Doe" },
-    ];
+  const [transactions, setTransactions] = useState([])
 
   useEffect(() => {
     fetchData()
@@ -24,13 +20,14 @@ const TransactionsComponent = () => {
 
   const fetchData = async() => {
     setLoading(true)
-
-
     let { data, error, status } = await supabase
     .from('transactions')
-    .select(`wallet, url, name`, `description`)
-    .eq('owner', user.id)
-    .single()
+    .select(`sender, receiver, amount, success, userid, currency, createdat`)
+    .eq('userid', user.id)
+    setTransactions(data)
+    console.log(data)
+
+
 
   if (error && status !== 406) {
     throw error
@@ -38,10 +35,8 @@ const TransactionsComponent = () => {
   }
 
   if (data) {
-    setWallet(data.wallet)
-    setUrl(data.url)
-    setStoreName(data.name)
-    setDescription(data.description)
+    setTransactions(data)
+    console.log(data)
     setLoading(false)
   }
 
@@ -73,37 +68,25 @@ const TransactionsComponent = () => {
     <table>
       <thead>
         <tr>
-          <th>Product Name</th>
-          <th>Product Number</th>
-          <th>Payment</th>
+          <th>Time</th>
+          <th>Description</th>
+          <th>Amount</th>
+          <th>Customer</th>
           <th>Status</th>
-          <th />
         </tr>
       </thead>
       <tbody>
-        {transactions.map((transactions) => (
-         <tr className="tr">
-                      <td>Foldable Mini Drone</td>
-                      <td>{transactions.id}</td>
-                      <td>Due</td>
-                      <td class="warning">Pending</td>
-                      <td class="primary">Details</td>
-                  </tr>
-        ))}
-                  <tr className="tr">
-                      <td>Foldable Mini Drone</td>
-                      <td>85631</td>
-                      <td>Due</td>
-                      <td class="warning">Pending</td>
-                      <td class="primary">Details</td>
-                  </tr>
-                  <tr className="tr">
-                      <td>Foldable Mini Drone</td>
-                      <td>85631</td>
-                      <td>Due</td>
-                      <td class="warning">Pending</td>
-                      <td class="primary">Details</td>
-                  </tr>
+          
+        {
+            transactions.map((transactions) => (
+                <tr className="tr" key={transactions.id}>
+                             <td>{transactions.createdat}</td>
+                             <td>{transactions.sender}</td>
+                             <td>{transactions.amount} {transactions.currency}</td>
+                             <td>{transactions.sender.substring(0,8)}...</td>
+                             <td class="success">Success</td>
+                         </tr>
+                ))}
       </tbody>
     </table>
     <a href="#">Show All</a>
