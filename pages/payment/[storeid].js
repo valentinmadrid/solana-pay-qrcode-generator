@@ -7,6 +7,7 @@ import { encodeURL, createQR } from '@solana/pay';
 import BigNumber from 'bignumber.js';
 import { useRef, useLayoutEffect } from "react";
 import styles from '../../styles/Payment.module.css'
+import Header from '../../components/PaymentHeaderComponent'
 
 const Payment = () => {
     const [loading, setLoading] = useState(true)
@@ -97,6 +98,8 @@ useEffect(() => {
 
 
     return (
+        <div>
+        <Header />
         <main className={styles.main}>
             <div className={styles.form}>
                 <input 
@@ -126,6 +129,7 @@ useEffect(() => {
 
             </div>
         </main>
+        </div>
     )
 }
 
