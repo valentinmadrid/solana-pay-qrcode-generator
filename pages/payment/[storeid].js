@@ -6,6 +6,7 @@ import { Cluster, clusterApiUrl, Connection, PublicKey, Keypair } from '@solana/
 import { encodeURL, createQR } from '@solana/pay';
 import BigNumber from 'bignumber.js';
 import { useRef, useLayoutEffect } from "react";
+import styles from '../../styles/Payment.module.css'
 
 const Payment = () => {
     const [loading, setLoading] = useState(true)
@@ -96,37 +97,35 @@ useEffect(() => {
 
 
     return (
-        <div>
-        <h1>Payment</h1>
-        <h3>Welcome to {storeName}</h3>
-        <h3>{description}</h3>
-        <input type='number' placeholder='1' 
-        onChange={(e) => {
-            setAmount(e.target.value)
-        }}
-        />
-        <select onChange={(e) => {
-            const selectedCurrency = e.target.value;
-            setCurrency(selectedCurrency);
-        }}> 
-            <option value='SOL'>Solana</option>
-            <option value='USDC'>USDC</option>
-            <option value='ETH'>Ethereum</option>
-            <option value='BTC'>Bitcoin</option>
-        </select>
-        {currency}
-        <input type='text' placeholder='Description' 
-        onChange={(e) => {
-            setTransactionDescription(e.target.value)
-        }}
-        />
-        <div ref={ref} />
-        <button onClick={generateQr}>Create QR Code</button>
-        <Modal isOpen={modalIsOpen}>
-<h1>hello</h1>
-<div ref={ref} />
-        </Modal>
-        </div>
+        <main className={styles.main}>
+            <div className={styles.form}>
+                <input 
+                    type="text"
+                    placeholder="Top text"
+                    className={styles.forminput}
+                    name="topText"
+                    value={"yoo"}
+                    onChange={((e) => setDescription(e.target.value))}
+                />
+                <input 
+                    type="text"
+                    placeholder="Bottom text"
+                    className={styles.forminput}
+                    name="bottomText"
+                    value={"yo"}
+                    onChange={((e) => setDescription(e.target.value))}
+                />
+                <button 
+                    className={styles.formbutton}
+                    onClick={generateQr}
+                >
+                    Generate QR Code
+                </button>
+            </div>
+            <div className={styles.meme}>
+
+            </div>
+        </main>
     )
 }
 
