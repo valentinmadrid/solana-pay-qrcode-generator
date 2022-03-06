@@ -20,12 +20,7 @@ const Payment = () => {
     const [amount, setAmount] = useState(1)
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const ref = useRef(null)
-    const [recipient, setRecipient] = useState(new PublicKey(''));
-    const [transactionAmount, setTransactionAmount] = useState(new BigNumber(0));
-    const [reference, setReference] = useState(new Keypair().publicKey);
-    const [label, setLabel] = useState('');
-    const [message, setMessage] = useState('');
-    const [memo, setMemo] = useState('');
+
 
     async function connect() {
         const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
@@ -66,27 +61,36 @@ const Payment = () => {
       
 }
 
+const [qrCode, setQrCode] = useState(null)
+
 const generateQr = () => {
+    const recipient = new PublicKey(wallet);
+    const transactionAmount = new BigNumber(amount);
+    const reference = new Keypair().publicKey;
+    const label = storeName;
+    const message = 'Your order at this store';
+    const memo = '11111';
+    let splToken = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'
+    if (currency === 'SOL') {
+        splToken = new PublicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v');
+    } else if (currency === 'USDC') {
+        splToken = new PublicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v');
+    } else if (currency === 'ETH') {
+        splToken = new PublicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v');
+    } else if (currency === 'BTC') {
+        splToken = new PublicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v');
+    }
+    const url = encodeURL({ recipient, transactionAmount, splToken, reference, label, message, memo });
+    const qrCode = createQR(url);
+    setModalIsOpen(true)
+    qrCode?.append(ref.current)
 
 }
 
 useEffect(() => {
-        setRecipient(new PublicKey(wallet))
-        if (currency === 'SOL') {
-            let splToken = new PublicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v');
-        } else if (currency === 'USDC') {
-            let splToken = new PublicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v');
-        } else if (currency === 'ETH') {
-            let splToken = new PublicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v');
-        } else if (currency === 'BTC') {
-            let splToken = new PublicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v');
-        }
-        
-        setModalIsOpen(true)
-        const qrUrl = encodeURL({ recipient, transactionAmount, splToken, reference, label, message, memo });
-        const qrCode = createQR(url);
     qrCode?.append(ref.current)
-  }, [generateQr])
+}, [modalIsOpen])
+
 
 
 
@@ -116,6 +120,7 @@ useEffect(() => {
             setTransactionDescription(e.target.value)
         }}
         />
+        <div ref={ref} />
         <button onClick={generateQr}>Create QR Code</button>
         <Modal isOpen={modalIsOpen}>
 <h1>hello</h1>
