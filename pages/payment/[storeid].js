@@ -9,6 +9,7 @@ import { useRef, useLayoutEffect } from "react";
 import styles from '../../styles/Payment.module.css'
 import Header from '../../components/PaymentHeaderComponent'
 
+
 const Payment = () => {
     const [loading, setLoading] = useState(true)
     const [wallet, setWallet] = useState('va1yPZsd2qieP5pE6gtxvAHkHKEW3qmtoZy3oN1GcBX')
@@ -19,9 +20,9 @@ const Payment = () => {
     const storeid = router.query.storeid
     const [currency, setCurrency] = useState('SOL')
     const [transactionDescription, setTransactionDescription] = useState('')
-    const [amount, setAmount] = useState(1)
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const ref = useRef(null)
+    const [paymentAmount, setPaymentAmount] = useState(0)
 
 
     async function connect() {
@@ -66,12 +67,14 @@ const Payment = () => {
 const [qrCode, setQrCode] = useState(null)
 
 const generateQr = () => {
+    console.log(paymentAmount)
+    console.log(description)
     const recipient = new PublicKey(wallet);
-    const transactionAmount = new BigNumber(amount);
+    const transactionAmount = new BigNumber(paymentAmount);
     const reference = new Keypair().publicKey;
     const label = storeName;
-    const message = 'Your order at this store';
-    const memo = '11111';
+    const message = description;
+    const memo = 'Payment at' + storeName + '#2022' + '00001';
     let splToken = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'
     if (currency === 'SOL') {
         splToken = new PublicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v');
@@ -82,7 +85,8 @@ const generateQr = () => {
     } else if (currency === 'BTC') {
         splToken = new PublicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v');
     }
-    const url = encodeURL({ recipient, transactionAmount, splToken, reference, label, message, memo });
+    const url = encodeURL({ recipient, amount: transactionAmount, splToken, reference, label, message, memo });
+    console.log(url)
     const qrCode = createQR(url);
     setModalIsOpen(true)
     qrCode?.append(ref.current)
@@ -103,19 +107,17 @@ useEffect(() => {
         <main className={styles.main}>
             <div className={styles.form}>
                 <input 
-                    type="text"
-                    placeholder="Top text"
+                    type="number"
+                    placeholder='Amount'
                     className={styles.forminput}
-                    name="topText"
-                    value={"yoo"}
-                    onChange={((e) => setDescription(e.target.value))}
+                    name="amount"
+                    onChange={((e) => setPaymentAmount(e.target.value))}
                 />
                 <input 
                     type="text"
-                    placeholder="Bottom text"
+                    placeholder="Description"
                     className={styles.forminput}
-                    name="bottomText"
-                    value={"yo"}
+                    name="description"
                     onChange={((e) => setDescription(e.target.value))}
                 />
                 <button 
@@ -125,7 +127,7 @@ useEffect(() => {
                     Generate QR Code
                 </button>
             </div>
-            <div className={styles.meme}>
+            <div className={styles.qrcode} ref={ref}>
 
             </div>
         </main>
