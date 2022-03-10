@@ -68,28 +68,29 @@ const SettingsComponent = () => {
           <h3>Store Settings</h3>
 
           <label>Wallet Adress</label>
-          <input className={styles.input}
+          <input
           placeholder={wallet}
           onChange={e => setWallet(e.target.value)}
           style={{ margin: 10 }}
+          className={styles.forminput}
         />
         <br />
           <label>Store Name</label>
-          <input className={styles.input}
+          <input className={styles.forminput}
           placeholder={storeName}
           onChange={e => setStoreName(e.target.value)}
           style={{ margin: 10 }}
         />
           <br />
           <label>Store URL</label>
-          <input className={styles.input}
+          <input className={styles.forminput}
           placeholder={url}
           onChange={e => setUrl(e.target.value)}
           style={{ margin: 10 }}
         />
         <br />
         <label>Store Description</label>
-          <input className={styles.input}
+          <input className={styles.forminput}
           placeholder={description}
           onChange={e => setDescription(e.target.value)}
           style={{ margin: 10 }}
@@ -103,12 +104,12 @@ const SettingsComponent = () => {
       <div className={styles.middle}>
         <div className={styles.left}>
           <h3>Currencies</h3>
-          <input className={styles.input}
+          <input className={styles.forminput}
           type='checkbox'
           onChange={e => setEmail(e.target.value)}
           style={{ margin: 10 }}
         />
-          <input className={styles.input}
+          <input className={styles.forminput}
           type='checkbox'
           onChange={e => setPassword(e.target.value)}
           style={{ margin: 10 }}
@@ -122,7 +123,7 @@ const SettingsComponent = () => {
       <div className={styles.middle}>
         <div className={styles.left}>
           <h3>Sign Up</h3>
-          <input className={styles.input}
+          <input className={styles.forminput}
           placeholder='Wallet Adress'
           onChange={e => setEmail(e.target.value)}
           style={{ margin: 10 }}
