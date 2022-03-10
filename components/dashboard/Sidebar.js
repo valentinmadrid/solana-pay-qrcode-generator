@@ -28,6 +28,10 @@ const Sidebar = () => {
       <DashboardSharp />
       <h3>Transactions</h3>
     </a>
+    <a href="/profile">
+      <DashboardSharp />
+      <h3>Profile</h3>
+    </a>
     <a href="#">
       <DashboardSharp />
       <h3>Logout</h3>
