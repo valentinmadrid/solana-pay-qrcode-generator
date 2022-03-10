@@ -48,8 +48,12 @@ const Payment = () => {
         .single()
     
       if (error && status !== 406) {
+        return(
+            <h1>This profile does not exist</h1>
+        )
         throw error
         console.log(error)
+
       }
     
       if (data) {
@@ -59,6 +63,10 @@ const Payment = () => {
         setStoreName(data.name)
         setDescription(data.description)
         setLoading(false)
+      } else {
+          return(
+              <h1>This profile was not found</h1>
+          )
       }
     
       
