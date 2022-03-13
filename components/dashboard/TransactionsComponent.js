@@ -61,7 +61,6 @@ const TransactionsComponent = () => {
   }
     return (
 <main>
-  <h1>Dashoard</h1>
   {/*---------- END OF INSIGHTS ------------*/}
   <div className={styles.recentorders}>
     <h2>Recent Orders</h2>
