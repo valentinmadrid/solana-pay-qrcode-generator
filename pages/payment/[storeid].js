@@ -3,11 +3,13 @@ import { supabase } from '../../client'
 import { useEffect, useState } from "react";
 import Modal from "react-modal"
 import { Cluster, clusterApiUrl, Connection, PublicKey, Keypair } from '@solana/web3.js';
-import { encodeURL, createQR } from '@solana/pay';
+import { encodeURL, findTransactionSignature, FindTransactionSignatureError, createQR } from '@solana/pay';
 import BigNumber from 'bignumber.js';
 import { useRef, useLayoutEffect } from "react";
 import styles from '../../styles/Payment.module.css'
 import Header from '../../components/PaymentHeaderComponent'
+const CC = require('crypto-converter-lt')
+
 
 
 const Payment = () => {
@@ -23,17 +25,25 @@ const Payment = () => {
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const ref = useRef(null)
     const [paymentAmount, setPaymentAmount] = useState(0)
+    const [totalprofit, setTotalProfit] = useState(0)
+    const [amount, setAmount] = useState(0)
+    const [currencyAmount, setCurrencyAmount] = useState(0)
+    let cryptoConverter = new CC()
 
-
-    async function connect() {
-        const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
-    }
+    const connection = new Connection(clusterApiUrl('mainnet-beta'), 'confirmed');
 
     useEffect(() => {
         fetchData()
-        connect()
         console.log(storeid)
       }, [storeid])
+
+    const handleAmountChange = () => {
+        setAmount(e.target.value)
+        cryptoConverter.from(currency).to("USD").amount(amount).convert().then((response) => {
+            console.log(response)
+            setCurrencyAmount(response)
+        })
+    }
     
       const user = supabase.auth.user()
     
@@ -43,11 +53,14 @@ const Payment = () => {
     
         let { data, error, status } = await supabase
         .from('stores')
-        .select(`wallet, name`, `description`, `id`)
+        .select('wallet, name, description, id, totalprofit')
         .eq('url', storeid)
         .single()
-    
+
+
+
       if (error && status !== 406) {
+        router.push('notfound')
         return(
             <h1>This profile does not exist</h1>
         )
@@ -57,12 +70,16 @@ const Payment = () => {
       }
     
       if (data) {
-        console.log(data.wallet)
+        console.log(data)
+        if (data.wallet === undefined) { router.push('notfound') }
         setWallet(data.wallet)
+        console.log(wallet)
         setUrl(data.url)
         setStoreName(data.name)
         setDescription(data.description)
+        setTotalProfit(data.totalprofit)
         setLoading(false)
+        
       } else {
           return(
               <h1>This profile was not found</h1>
@@ -74,30 +91,42 @@ const Payment = () => {
 
 const [qrCode, setQrCode] = useState(null)
 
-const generateQr = () => {
+const generateQr = async() => {
+    const connection = new Connection(clusterApiUrl('mainnet-beta'), 'confirmed');
     console.log(paymentAmount)
     console.log(description)
+    setWallet()
     const recipient = new PublicKey(wallet);
     const transactionAmount = new BigNumber(paymentAmount);
     const reference = new Keypair().publicKey;
     const label = storeName;
     const message = description;
-    const memo = 'Payment at' + storeName + '#2022' + '00001';
+    const memo = 'Payment at' + storeName + '#2022' + Math.floor(Math.random(22,0));
     let splToken = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'
     if (currency === 'SOL') {
         splToken = new PublicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v');
     } else if (currency === 'USDC') {
         splToken = new PublicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v');
     } else if (currency === 'ETH') {
-        splToken = new PublicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v');
+        splToken = new PublicKey('6krMGWgeqD4CySfMr94WcfcVbf2TrMzfshAk5DcZ7mbu');
     } else if (currency === 'BTC') {
-        splToken = new PublicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v');
+        splToken = new PublicKey('0xeae57ce9cc1984f202e15e038b964bb8bdf7229a');
     }
     const url = encodeURL({ recipient, amount: transactionAmount, splToken, reference, label, message, memo });
     console.log(url)
+    setAmount(transactionAmount)
     const qrCode = createQR(url);
     setModalIsOpen(true)
     qrCode?.append(ref.current)
+    console.log("getting txn status")
+    try {
+      let txnLookupResults = await getTxnStatus(connection, reference)
+      if (txnLookupResults) {
+        setPmtStatus(txnLookupResults)
+      }
+    } catch (err) {
+      console.log(err)
+    }
 
 }
 
@@ -105,8 +134,41 @@ useEffect(() => {
     qrCode?.append(ref.current)
 }, [modalIsOpen])
 
+async function getTxnStatus(connection, reference) {
+    let signatureInfo;
+    let count = 0
 
+    return new Promise((resolve, reject) => {
 
+      const interval = setInterval(async () => {
+        console.log('Checking for transaction...', count);
+        try {
+          signatureInfo = await findTransactionSignature(connection, reference, undefined, 'confirmed');
+          console.log('\n 🖌  Signature found: ', signatureInfo.signature);
+          const { data, error } = await supabase
+            .from('stores')
+            .insert([
+            { totalprofit: totalprofit + amount },
+        ])
+            .from('transactions')
+            .insert([
+            { wallet: wallet, sender: signatureInfo, signature: signatureInfo },  
+        ])
+
+          clearInterval(interval);
+          resolve(signatureInfo);
+          return signatureInfo
+        } catch (error) {
+          if (!(error instanceof FindTransactionSignatureError)) {
+            console.error(error);
+            clearInterval(interval);
+            reject(error);
+            count++
+          }
+        }
+      }, 1500);
+    });
+  }
 
 
     return (
@@ -119,7 +181,8 @@ useEffect(() => {
                     placeholder='Amount'
                     className={styles.forminput}
                     name="amount"
-                    onChange={((e) => setPaymentAmount(e.target.value))}
+                    value={amount}
+                    onChange={handleAmountChange}
                 />
                 <input 
                     type="text"
@@ -134,7 +197,26 @@ useEffect(() => {
                 >
                     Generate QR Code
                 </button>
+                <select 
+                    placeholder="Currency"
+                    className={styles.forminput}
+                    name="currency"
+                    onChange={((e) => setCurrency(e.target.value))}
+                >
+                <option value="SOL">Solana</option>
+                <option value="USDC">USDC</option>
+                <option value="ETH">Ethereum</option>
+                <option value="BTC">Bitcoin</option>
+                </select>
+                <input 
+                    type=""
+                    placeholder="Amount in $"
+                    className={styles.forminput}
+                    name="description"
+                    onChange={((e) => setDescription(e.target.value))}
+                />
             </div>
+
             <div className={styles.qrcode} ref={ref}>
 
             </div>
