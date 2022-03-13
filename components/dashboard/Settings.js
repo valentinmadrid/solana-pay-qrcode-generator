@@ -138,44 +138,6 @@ const SettingsComponent = () => {
         </div>
       </div>
     </div>
-    <div className={styles.sales}>
-      <div className={styles.middle}>
-        <div className={styles.left}>
-          <h3>Sign Up</h3>
-          <input className={styles.input}
-          placeholder='Wallet Adress'
-          onChange={e => setEmail(e.target.value)}
-          style={{ margin: 10 }}
-        />
-          <input className={styles.input}
-          placeholder='Store Name'
-          onChange={e => setPassword(e.target.value)}
-          style={{ margin: 10 }}
-        />
-        <br />
-        <button onClick={() => signIn()}>Sign In</button>
-        </div>
-      </div>
-    </div>
-    <div className={styles.sales}>
-      <div className={styles.middle}>
-        <div className={styles.left}>
-          <h3>Sign Up</h3>
-          <input className={styles.input}
-          placeholder='Wallet Adress'
-          onChange={e => setEmail(e.target.value)}
-          style={{ margin: 10 }}
-        />
-          <input className={styles.input}
-          placeholder='Store Name'
-          onChange={e => setPassword(e.target.value)}
-          style={{ margin: 10 }}
-        />
-        <br />
-        <button onClick={() => signIn()}>Sign In</button>
-        </div>
-      </div>
-    </div>
     </div>
 </main>
     )
