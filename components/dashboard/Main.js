@@ -4,20 +4,43 @@ import styles from '../../styles/Home.module.css'
 import MoneyIcon from '@material-ui/icons/Money';
 import { useEffect, useState } from "react";
 import { Router, useRouter } from "next/router";
+import TransactionsComponent from "./TransactionsComponent";
 
 const Main = () => {
-    const [transactions, setTransactions] = useState('')
+  const [loading, setLoading] = useState(true)
+  const user = supabase.auth.user()
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+    const [insights, setInsights] = useState([])
     const amount = '12'
-    const fetchTransactions = async() => {
-    const { data, error } = await supabase
-    .from('transactions')
-    .select('sender, receiver, amount')
-    .eq('amount', amount)
-    console.log(data)
-    setTransactions(Object.keys(data))
+
+    const fetchData = async() => {
+      setLoading(true)
+
+      let { data, error, status } = await supabase
+      .from('stores')
+      .select('totalprofit, totalcustomers')
+      .eq('owner', user.id)
+      setInsights(data)
+      console.log(data)
+  
+  
+  
+    if (error && status !== 406) {
+      throw error
+      console.log(error)
+    }
+  
+    if (data) {
+      setInsights(data)
+      setLoading(false)
+    }
+  
     }
 
-    const totalProfit = '12, 880$'
     const [profile, setProfile] = useState(null)
     
     useEffect(() => {
@@ -45,7 +68,10 @@ const Main = () => {
       <div className={styles.middle}>
         <div className={styles.left}>
           <h3>Total Sales</h3>
-          <h1>$25,024</h1>
+          {
+            insights.map((insights) => (
+          <h1>{insights.totalprofit} $</h1>
+          ))}
         </div>
         <div className={styles.progress}>
           <svg>
@@ -63,8 +89,11 @@ const Main = () => {
       <MoneyIcon />
       <div className={styles.middle}>
         <div className={styles.left}>
-          <h3>Total Expenses</h3>
-          <h1>$14,160</h1>
+          <h3>Total Customers</h3>
+          {
+            insights.map((insights) => (
+          <h1>{insights.totalcustomers}</h1>
+          ))}
         </div>
         <div className={styles.progress}>
           <svg>
@@ -99,44 +128,7 @@ const Main = () => {
     {/*---------- END OF INCOME ------------*/}
   </div>
   {/*---------- END OF INSIGHTS ------------*/}
-  <div className={styles.recentorders}>
-    <h2>Recent Orders</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Product Name</th>
-          <th>Product Number</th>
-          <th>Payment</th>
-          <th>Status</th>
-          <th />
-        </tr>
-      </thead>
-      <tbody>
-         <tr className="tr">
-                      <td>Foldable Mini Drone</td>
-                      <td>85631</td>
-                      <td>Due</td>
-                      <td class="warning">Pending</td>
-                      <td class="primary">Details</td>
-                  </tr>
-                  <tr className="tr">
-                      <td>Foldable Mini Drone</td>
-                      <td>85631</td>
-                      <td>Due</td>
-                      <td class="warning">Pending</td>
-                      <td class="primary">Details</td>
-                  </tr>
-                  <tr className="tr">
-                      <td>Foldable Mini Drone</td>
-                      <td>85631</td>
-                      <td>Due</td>
-                      <td class="warning">Pending</td>
-                      <td class="primary">Details</td>
-                  </tr>
-      </tbody>
-    </table>
-    <a href="#">Show All</a>
-  </div>
+<TransactionsComponent />
 </main>
     )
 }
