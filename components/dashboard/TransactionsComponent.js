@@ -22,7 +22,7 @@ const TransactionsComponent = () => {
     setLoading(true)
     let { data, error, status } = await supabase
     .from('transactions')
-    .select(`sender, receiver, amount, success, userid, currency, createdat`)
+    .select(`sender, receiver, amount, success, userid, currency, createdat, description`)
     .eq('userid', user.id)
     setTransactions(data)
     console.log(data)
@@ -80,7 +80,7 @@ const TransactionsComponent = () => {
             transactions.map((transactions) => (
                 <tr className="tr" key={transactions.id}>
                              <td>{transactions.createdat}</td>
-                             <td>{transactions.sender}</td>
+                             <td>{transactions.description}</td>
                              <td>{transactions.amount} {transactions.currency}</td>
                              <td>{transactions.sender.substring(0,8)}...</td>
                              <td class="success">Success</td>
