@@ -122,19 +122,13 @@ const SettingsComponent = () => {
     <div className={styles.sales}>
       <div className={styles.middle}>
         <div className={styles.left}>
-          <h3>Sign Up</h3>
-          <input className={styles.forminput}
-          placeholder='Wallet Adress'
-          onChange={e => setEmail(e.target.value)}
-          style={{ margin: 10 }}
-        />
-          <input className={styles.input}
-          placeholder='Store Name'
-          onChange={e => setPassword(e.target.value)}
-          style={{ margin: 10 }}
-        />
+          <h3>Local Currency</h3>
+<select>
+  <option value="USD">USD</option>
+  <option value="EUR">EUR</option>
+</select>
         <br />
-        <button onClick={() => signIn()}>Sign In</button>
+        <button onClick={() => signIn()}>Save</button>
         </div>
       </div>
     </div>
