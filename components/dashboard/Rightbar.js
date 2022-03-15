@@ -4,43 +4,23 @@ import { useEffect, useState } from 'react'
 import { Router, useRouter } from "next/router";
 import { supabase } from "../../client";
 const Rightbar = () => {
-  const [profile, setProfile] = useState(null)
-    
-  useEffect(() => {
-      fetchProfile()
-  }, [])
-  
-  const router = useRouter()
-  const fetchProfile = async() => {
-      const profileData = await supabase.auth.user()
-      if (!profileData) {
-          router.push('/login')
-      } else {
-          setProfile(profileData)
-      }
-  }
 
 
-  if(!profile) return null;
+
+
+
     return (
         <div className={styles.right}>
   <div className={styles.top}>
     <button id="menu-btn">
     <DashboardSharp />
     </button>
-    <div className={styles.themetoggler}>
-      <DashboardSharp />
-      <DashboardSharp />
-    </div>
+
     <div className={styles.profile}>
       <div className={styles.info}>
         <p>
-          Hey, <b>{profile.name}</b>
+          Hey, great to see you 
         </p>
-        <small className={styles.textmuted}>Admin</small>
-      </div>
-      <div className={styles.profilephoto}>
-        <img src="./images/profile-1.jpg" />
       </div>
     </div>
   </div>
@@ -50,35 +30,35 @@ const Rightbar = () => {
     <div className={styles.updates}>
       <div className={styles.update}>
         <div className={styles.profilephoto}>
-          <img src="./images/profile-2.jpg" />
+          <img src="https://imgs.search.brave.com/vVyZzq1tnfFuKC58Ua9Qm5g4UUqZepIsKJV5V3pPSoA/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9hbWF6/aW5nc3RpY2tlcmNv/LmNvbS93cC1jb250/ZW50L3VwbG9hZHMv/MjAyMC8wNi9zdGlj/a2VyXzY2Mi5qcGc" />
         </div>
         <div className={styles.message}>
           <p>
-            <b>Mike Tyson</b> received his order of Night lion tech GPS drone.
+            <b>Valentin Madrid</b> Added a Customers Page to the App.
           </p>
-          <small className={styles.textmuted}>2 Minutes Ago</small>
+          <small className={styles.textmuted}>1 Week ago</small>
         </div>
       </div>
       <div className={styles.update}>
         <div className={styles.profilephoto}>
-          <img src="./images/profile-3.jpg" />
+          <img src="https://imgs.search.brave.com/vVyZzq1tnfFuKC58Ua9Qm5g4UUqZepIsKJV5V3pPSoA/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9hbWF6/aW5nc3RpY2tlcmNv/LmNvbS93cC1jb250/ZW50L3VwbG9hZHMv/MjAyMC8wNi9zdGlj/a2VyXzY2Mi5qcGc" />
         </div>
         <div className={styles.message}>
           <p>
-            <b>Mike Tyson</b> received his order of Night lion tech GPS drone.
+            <b>Valentin Madrid</b> Added a Transactions Page to the App.
           </p>
-          <small className={styles.textmuted}>2 Minutes Ago</small>
+          <small className={styles.textmuted}>1 Month ago</small>
         </div>
       </div>
       <div className={styles.update}>
         <div className={styles.profilephoto}>
-          <img src="./images/profile-4.jpg" />
+          <img src="https://imgs.search.brave.com/vVyZzq1tnfFuKC58Ua9Qm5g4UUqZepIsKJV5V3pPSoA/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9hbWF6/aW5nc3RpY2tlcmNv/LmNvbS93cC1jb250/ZW50L3VwbG9hZHMv/MjAyMC8wNi9zdGlj/a2VyXzY2Mi5qcGc" />
         </div>
         <div className={styles.message}>
           <p>
-            <b>Mike Tyson</b> received his order of Night lion tech GPS drone.
+            <b>Valentin Madrid</b> Created a basic Dashboard.
           </p>
-          <small className={styles.textmuted}>2 Minutes Ago</small>
+          <small className={styles.textmuted}>2 Months ago</small>
         </div>
       </div>
     </div>
@@ -96,7 +76,7 @@ const Rightbar = () => {
           <small className={styles.textmuted}>Last 24 Hours</small>
         </div>
         <h5 className={styles.success}>+39%</h5>
-        <h3>3849</h3>
+        <h3>0</h3>
       </div>
     </div>
     <div className={styles.item}>
@@ -109,7 +89,7 @@ const Rightbar = () => {
           <small className={styles.textmuted}>Last 24 Hours</small>
         </div>
         <h5 className={styles.danger}>-17%</h5>
-        <h3>1100</h3>
+        <h3>0</h3>
       </div>
     </div>
     <div className={styles.item}>
@@ -122,7 +102,7 @@ const Rightbar = () => {
           <small className={styles.textmuted}>Last 24 Hours</small>
         </div>
         <h5 className={styles.success}>+25%</h5>
-        <h3>849</h3>
+        <h3>0</h3>
       </div>
     </div>
 
