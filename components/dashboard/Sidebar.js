@@ -20,17 +20,21 @@ const Sidebar = () => {
       <DashboardSharp />
       <h3>Settings</h3>
     </a>
-    <a href="/coupons">
-      <DashboardSharp />
-      <h3>Coupons</h3>
-    </a>
     <a href="/transactions">
       <DashboardSharp />
       <h3>Transactions</h3>
     </a>
+    <a href="/customers">
+      <DashboardSharp />
+      <h3>Customers</h3>
+    </a>
     <a href="/profile">
       <DashboardSharp />
       <h3>Profile</h3>
+    </a>
+    <a href="/payment/cheezychips">
+      <DashboardSharp />
+      <h3>My Store</h3>
     </a>
     <a href="#">
       <DashboardSharp />
