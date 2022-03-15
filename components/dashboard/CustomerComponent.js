@@ -39,8 +39,6 @@ const CustomerComponent = () => {
 
     return (
 <main>
-  <h1>Dashoard</h1>
-  {/*---------- END OF INSIGHTS ------------*/}
   <div className={styles.recentorders}>
     <h2>Your Customers</h2>
     <table>
