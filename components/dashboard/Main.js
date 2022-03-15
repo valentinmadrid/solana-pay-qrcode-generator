@@ -5,6 +5,7 @@ import MoneyIcon from '@material-ui/icons/Money';
 import { useEffect, useState } from "react";
 import { Router, useRouter } from "next/router";
 import TransactionsComponent from "./TransactionsComponent";
+import PersonIcon from '@material-ui/icons/Person';
 
 const Main = () => {
   const [loading, setLoading] = useState(true)
@@ -64,7 +65,7 @@ const Main = () => {
   <h1>Dashoard</h1>
   <div className={styles.insights}>
     <div className={styles.sales}>
-      <MoneyIcon sx={{ fontSize: 30 }} color="secondary" />
+      <MoneyIcon sx={{ fontSize: 20 }} />
       <div className={styles.middle}>
         <div className={styles.left}>
           <h3>Total Sales</h3>
@@ -73,16 +74,9 @@ const Main = () => {
           <h1>{insights.totalprofit} $</h1>
           ))}
         </div>
-        <div className={styles.progress}>
-          <svg>
-            <circle cx={38} cy={38} r={36} />
-          </svg>
-          <div className={styles.number}>
-            <p>81%</p>
-          </div>
-        </div>
+
       </div>
-      <small className={styles.textmuted}>Last 24 Hours</small>
+      <small className={styles.textmuted}>All time</small>
     </div>
     {/*---------- END OF SALES ------------*/}
     <div className={styles.expenses}>
@@ -95,16 +89,9 @@ const Main = () => {
           <h1>{insights.totalcustomers}</h1>
           ))}
         </div>
-        <div className={styles.progress}>
-          <svg>
-            <circle cx={38} cy={38} r={36} />
-          </svg>
-          <div className={styles.number}>
-            <p>62%</p>
-          </div>
-        </div>
+
       </div>
-      <small className={styles.textmuted}>Last 24 Hours</small>
+      <small className={styles.textmuted}>All time</small>
     </div>
     {/*---------- END OF EXPENSES ------------*/}
     <div className={styles.income}>
@@ -112,18 +99,11 @@ const Main = () => {
       <div className={styles.middle}>
         <div className={styles.left}>
           <h3>Total Income</h3>
-          <h1>$10,864</h1>
+          <h1>0 $</h1>
         </div>
-        <div className={styles.progress}>
-          <svg>
-            <circle cx={38} cy={38} r={36} />
-          </svg>
-          <div className={styles.number}>
-            <p>44%</p>
-          </div>
-        </div>
+
       </div>
-      <small className={styles.textmuted}>Last 24 Hours</small>
+      <small className={styles.textmuted}>All time</small>
     </div>
     {/*---------- END OF INCOME ------------*/}
   </div>
