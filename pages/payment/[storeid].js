@@ -8,7 +8,7 @@ import BigNumber from 'bignumber.js';
 import { useRef, useLayoutEffect } from "react";
 import styles from '../../styles/Payment.module.css'
 import Header from '../../components/PaymentHeaderComponent'
-const CC = require('crypto-converter-lt')
+
 
 
 
@@ -28,7 +28,10 @@ const Payment = () => {
     const [totalprofit, setTotalProfit] = useState(0)
     const [amount, setAmount] = useState(0)
     const [currencyAmount, setCurrencyAmount] = useState(0)
-    let cryptoConverter = new CC()
+
+    const solanaToEurRate = 1/80
+    const solanaToUsdRate = 1/70
+
 
     const connection = new Connection(clusterApiUrl('mainnet-beta'), 'confirmed');
 
@@ -39,10 +42,9 @@ const Payment = () => {
 
     const handleAmountChange = () => {
         setAmount(e.target.value)
-        cryptoConverter.from(currency).to("USD").amount(amount).convert().then((response) => {
-            console.log(response)
-            setCurrencyAmount(response)
-        })
+
+
+        
     }
     
       const user = supabase.auth.user()
@@ -79,6 +81,7 @@ const Payment = () => {
         setDescription(data.description)
         setTotalProfit(data.totalprofit)
         setLoading(false)
+
         
       } else {
           return(
@@ -130,6 +133,20 @@ const generateQr = async() => {
 
 }
 
+const storePurchase = async(signature) => {
+  console.log(totalprofit + paymentAmount)
+  let newprofit = totalprofit + paymentAmount
+  console.log(newprofit)
+  const { data, error } = await supabase
+  .from('transactions')
+  .insert([
+  { amount: paymentAmount, userid: user.id, success: true, currency: currency, description: description, id: signature },
+])
+if (error) {
+  console.log(error)
+}
+}
+
 useEffect(() => {
     qrCode?.append(ref.current)
 }, [modalIsOpen])
@@ -144,16 +161,15 @@ async function getTxnStatus(connection, reference) {
         console.log('Checking for transaction...', count);
         try {
           signatureInfo = await findTransactionSignature(connection, reference, undefined, 'confirmed');
-          console.log('\n 🖌  Signature found: ', signatureInfo.signature);
-          const { data, error } = await supabase
-            .from('stores')
-            .insert([
-            { totalprofit: totalprofit + amount },
-        ])
-            .from('transactions')
-            .insert([
-            { wallet: wallet, sender: signatureInfo, signature: signatureInfo },  
-        ])
+          console.log('\n 🖌  Signature found: ', signatureInfo.signature );
+          const signattureCheck = await connection.getTransaction(signatureInfo.signature)
+          console.log(signattureCheck)         
+          console.log(signattureCheck.meta.preTokenBalances.owner)
+          console.log(signatureInfo.signature)
+          const signature = signatureInfo.signature
+
+
+          storePurchase(signature, signatureWallet)
 
           clearInterval(interval);
           resolve(signatureInfo);
@@ -181,8 +197,8 @@ async function getTxnStatus(connection, reference) {
                     placeholder='Amount'
                     className={styles.forminput}
                     name="amount"
-                    value={amount}
-                    onChange={handleAmountChange}
+                    value={paymentAmount}
+                    onChange={((e) => setPaymentAmount(e.target.value))}
                 />
                 <input 
                     type="text"
