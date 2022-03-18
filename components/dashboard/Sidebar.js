@@ -3,8 +3,36 @@ import DashboardSharp from '@material-ui/icons/DashboardSharp';
 import styles from '../../styles/Sidebar.module.css'
 import { useRouter } from "next/router";
 import Link from 'next/link'
+import { useState, useEffect } from "react"
+import { supabase } from "../../client";
 
 const Sidebar = () => {
+  const [url , setUrl] = useState("")
+  const user = supabase.auth.user()
+  useEffect(() => {
+    fetchData()
+  },[])
+  const fetchData = async() => {
+    let { data, error, status } = await supabase
+    .from('stores')
+    .select('url')
+    .eq('owner', user.id)
+    .single()
+    setUrl(data.url)
+    console.log(data)
+
+
+
+  if (error && status !== 406) {
+    throw error
+    console.log(error)
+  }
+
+  if (data) {
+  }
+
+  }
+
   const router = useRouter();
   const selected = router.query.selected
     return (
@@ -37,13 +65,7 @@ const Sidebar = () => {
       <h3>Customers</h3>
       </a>
     </Link>
-    <Link href="/profile">
-      <a>
-      <DashboardSharp />
-      <h3>Profile</h3>
-      </a>
-    </Link>
-    <Link href="/payment/cheezychips">
+    <Link href={"/payment/" + url}>
       <a>
       <DashboardSharp />
       <h3>My Store</h3>
