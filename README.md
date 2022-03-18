@@ -9,6 +9,6 @@ In the "transactions" table insert these rows= "id" as varchar, "sender" as varc
 
 In the "stores" table insert these rows= "owner" as the unique identifier+ as varchar, "url" as varchar, "name" as varchar, "description" as varchar, "wallet" as varchar, "id" as an integer, "totalprofit" as an int, "totalcustomers" as an int.
 
-If you just want to check the project out, here's the demo: https://plancian-demo-gqzelztjh-valentin-incilitycom.vercel.app/
+If you just want to check the project out, here's the demo: https://plancian-demo.vercel.app/register
 
 
