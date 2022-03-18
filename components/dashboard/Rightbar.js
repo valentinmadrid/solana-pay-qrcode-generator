@@ -73,9 +73,9 @@ const Rightbar = () => {
       <div className={styles.right}>
         <div className={styles.info}>
           <h3>ONLINE ORDERS</h3>
-          <small className={styles.textmuted}>Last 24 Hours</small>
+          <small className={styles.textmuted}>All time</small>
         </div>
-        <h5 className={styles.success}>+39%</h5>
+        <h5 className={styles.success}>+0%</h5>
         <h3>0</h3>
       </div>
     </div>
@@ -86,9 +86,9 @@ const Rightbar = () => {
       <div className={styles.right}>
         <div className={styles.info}>
           <h3>OFFLINE ORDERS</h3>
-          <small className={styles.textmuted}>Last 24 Hours</small>
+          <small className={styles.textmuted}>All time</small>
         </div>
-        <h5 className={styles.danger}>-17%</h5>
+        <h5 className={styles.danger}>+0%</h5>
         <h3>0</h3>
       </div>
     </div>
@@ -99,9 +99,9 @@ const Rightbar = () => {
       <div className={styles.right}>
         <div className={styles.info}>
           <h3>NEW CUSTOMERS</h3>
-          <small className={styles.textmuted}>Last 24 Hours</small>
+          <small className={styles.textmuted}>All time</small>
         </div>
-        <h5 className={styles.success}>+25%</h5>
+        <h5 className={styles.success}>+0%</h5>
         <h3>0</h3>
       </div>
     </div>
