@@ -3,7 +3,7 @@ import styles from '../styles/Auth.module.css'
 
 import { supabase } from '../client'
 
-const signIn = () => {
+const SignIn = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [submitted, setSubmitted] = useState(false)
@@ -45,4 +45,4 @@ const signIn = () => {
   )
 }
 
-export default signIn;
+export default SignIn;
