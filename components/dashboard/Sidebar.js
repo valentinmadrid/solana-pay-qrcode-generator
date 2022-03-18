@@ -14,32 +14,46 @@ const Sidebar = () => {
   </div>
   <div className={styles.sidebar}>
     <Link href="/dashboard">
+      <a>
       <DashboardSharp />
       <h3>Dashboard</h3>
+      </a>
     </Link>
     <Link href="/settings">
+      <a>
       <DashboardSharp />
       <h3>Settings</h3>
+      </a>
     </Link>
     <Link href="/transactions">
+      <a>
       <DashboardSharp />
       <h3>Transactions</h3>
+      </a>
     </Link>
     <Link href="/customers">
+      <a>
       <DashboardSharp />
       <h3>Customers</h3>
+      </a>
     </Link>
     <Link href="/profile">
+      <a>
       <DashboardSharp />
       <h3>Profile</h3>
+      </a>
     </Link>
     <Link href="/payment/cheezychips">
+      <a>
       <DashboardSharp />
       <h3>My Store</h3>
+      </a>
     </Link>
     <Link href="#">
+      <a>
       <DashboardSharp />
       <h3>Logout</h3>
+      </a>
     </Link>
   </div>
 </aside>
