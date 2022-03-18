@@ -33,6 +33,4 @@ yarn-error.log*
 # vercel
 .vercel
 
-# api
-client.js
 
