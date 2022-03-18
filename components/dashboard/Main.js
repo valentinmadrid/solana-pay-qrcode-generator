@@ -10,6 +10,7 @@ import PersonIcon from '@material-ui/icons/Person';
 const Main = () => {
   const [loading, setLoading] = useState(true)
   const user = supabase.auth.user()
+  const [url, setUrl] = useState("")
 
   useEffect(() => {
     fetchData()
@@ -23,9 +24,10 @@ const Main = () => {
 
       let { data, error, status } = await supabase
       .from('stores')
-      .select('totalprofit, totalcustomers')
+      .select('totalprofit, totalcustomers, url')
       .eq('owner', user.id)
       setInsights(data)
+      setUrl(data.url)
       console.log(data)
   
   
