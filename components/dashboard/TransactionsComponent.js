@@ -83,7 +83,7 @@ const TransactionsComponent = () => {
                              <td>{transactions.description}</td>
                              <td>{transactions.amount} {transactions.currency}</td>
                              <td>{transactions.sender.substring(0,8)}...</td>
-                             <td class="success">Success</td>
+                             <td className="success">Success</td>
                          </tr>
                 ))}
       </tbody>
