@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { supabase } from '../../client'
 import { useEffect, useState } from "react";
 import Modal from "react-modal"
-import { Cluster, clusterApiUrl, Connection, PublicKey, Keypair } from '@solana/web3.js';
+import { Cluster, clusterApiUrl, Connection, PublicKey, Keypair, Transaction, Message } from '@solana/web3.js';
 import { encodeURL, findTransactionSignature, FindTransactionSignatureError, createQR } from '@solana/pay';
 import BigNumber from 'bignumber.js';
 import { useRef, useLayoutEffect } from "react";
@@ -41,12 +41,10 @@ const Payment = () => {
       }, [storeid])
 
     const handleAmountChange = () => {
-        setAmount(e.target.value)
-
-
-        
+        setAmount(e.target.value)   
     }
-    
+  
+
       const user = supabase.auth.user()
     
       const fetchData = async() => {
@@ -133,14 +131,14 @@ const generateQr = async() => {
 
 }
 
-const storePurchase = async(signature) => {
+const storePurchase = async(signature, feepayer) => {
   console.log(totalprofit + paymentAmount)
   let newprofit = totalprofit + paymentAmount
   console.log(newprofit)
   const { data, error } = await supabase
   .from('transactions')
   .insert([
-  { amount: paymentAmount, userid: user.id, success: true, currency: currency, description: description, id: signature },
+  { amount: paymentAmount, userid: user.id, success: true, currency: currency, description: description, id: signature, sender: feepayer, receiver: wallet },
 ])
 if (error) {
   console.log(error)
@@ -152,6 +150,7 @@ useEffect(() => {
 }, [modalIsOpen])
 
 async function getTxnStatus(connection, reference) {
+
     let signatureInfo;
     let count = 0
 
@@ -164,12 +163,16 @@ async function getTxnStatus(connection, reference) {
           console.log('\n 🖌  Signature found: ', signatureInfo.signature );
           const signattureCheck = await connection.getTransaction(signatureInfo.signature)
           console.log(signattureCheck)         
-          console.log(signattureCheck.meta.preTokenBalances.owner)
+          console.log(signattureCheck.meta.preTokenBalances[0].owner)
           console.log(signatureInfo.signature)
-          const signature = signatureInfo.signature
+
+          let feepayer = signattureCheck.meta.preTokenBalances[0].owner
+          let signature = signatureInfo.signature
 
 
-          storePurchase(signature, signatureWallet)
+
+
+          storePurchase(signature, feepayer)
 
           clearInterval(interval);
           resolve(signatureInfo);
@@ -189,7 +192,9 @@ async function getTxnStatus(connection, reference) {
 
     return (
         <div>
-        <Header />
+        <Header 
+        storename={storeName}
+        />
         <main className={styles.main}>
             <div className={styles.form}>
                 <input 
