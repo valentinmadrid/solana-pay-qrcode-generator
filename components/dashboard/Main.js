@@ -71,7 +71,8 @@ const Main = () => {
           <h3>Total Sales</h3>
           {
             insights.map((insights) => (
-          <h1>{insights.totalprofit} $</h1>
+          
+          <h1 key={1}>{insights.totalprofit} $</h1>
           ))}
         </div>
 
@@ -86,7 +87,7 @@ const Main = () => {
           <h3>Total Customers</h3>
           {
             insights.map((insights) => (
-          <h1>{insights.totalcustomers}</h1>
+          <h1 key={1}>{insights.totalcustomers}</h1>
           ))}
         </div>
 
