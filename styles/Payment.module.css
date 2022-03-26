@@ -102,3 +102,9 @@
 .qrcode {
     margin: auto;
 }
+
+.center {
+    margin:auto;
+    align-items: center;
+    align-self: center;
+}
