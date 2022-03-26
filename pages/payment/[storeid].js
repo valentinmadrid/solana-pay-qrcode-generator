@@ -105,7 +105,7 @@ const generateQr = async() => {
     const memo = 'Payment at' + storeName + '#2022' + Math.floor(Math.random(22,0));
     let splToken = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'
     if (currency === 'SOL') {
-        splToken = new PublicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v');
+        splToken = new PublicKey('So11111111111111111111111111111111111111112');
     } else if (currency === 'USDC') {
         splToken = new PublicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v');
     } else if (currency === 'ETH') {
@@ -139,6 +139,20 @@ const storePurchase = async(signature, feepayer) => {
   .from('transactions')
   .insert([
   { amount: paymentAmount, userid: user.id, success: true, currency: currency, description: description, id: signature, sender: feepayer, receiver: wallet },
+])
+if (error) {
+  console.log(error)
+}
+}
+
+const storePurchase2 = async(signature, feepayer) => {
+  console.log(totalprofit + paymentAmount)
+  let newprofit = totalprofit + paymentAmount
+  console.log(newprofit)
+  const { data, error } = await supabase
+  .from('stores')
+  .insert([
+  { id: user.id, totalprofit: newprofit },
 ])
 if (error) {
   console.log(error)
@@ -237,9 +251,9 @@ async function getTxnStatus(connection, reference) {
                     onChange={((e) => setDescription(e.target.value))}
                 />
             </div>
-
+            <div className={styles.center}>
             <div className={styles.qrcode} ref={ref}>
-
+            </div>
             </div>
         </main>
         </div>
