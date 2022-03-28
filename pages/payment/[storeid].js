@@ -12,6 +12,7 @@ import Header from '../../components/PaymentHeaderComponent'
 
 
 
+
 const Payment = () => {
     const [loading, setLoading] = useState(true)
     const [wallet, setWallet] = useState('va1yPZsd2qieP5pE6gtxvAHkHKEW3qmtoZy3oN1GcBX')
@@ -29,6 +30,7 @@ const Payment = () => {
     const [amount, setAmount] = useState(0)
     const [currencyAmount, setCurrencyAmount] = useState(0)
     const [ storeOwner, setStoreOwner] = useState('')
+    const [ transactionSuccess, setTransactionSuccess ] = useState(false)
 
     const solanaToEurRate = 1/80
     const solanaToUsdRate = 1/70
@@ -176,6 +178,7 @@ useEffect(() => {
     qrCode?.append(ref.current)
 }, [modalIsOpen])
 
+
 async function getTxnStatus(connection, reference) {
 
     let signatureInfo;
@@ -202,6 +205,10 @@ async function getTxnStatus(connection, reference) {
           storePurchase(signature, feepayer)
           storePurchase2()
           storePurchase3(feepayer)
+
+          router.push('/transactioncomplete')
+
+          setTransactionSuccess(true)
 
           clearInterval(interval);
           resolve(signatureInfo);
