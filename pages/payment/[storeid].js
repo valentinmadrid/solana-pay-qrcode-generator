@@ -28,6 +28,7 @@ const Payment = () => {
     const [totalprofit, setTotalProfit] = useState(0)
     const [amount, setAmount] = useState(0)
     const [currencyAmount, setCurrencyAmount] = useState(0)
+    const [ storeOwner, setStoreOwner] = useState('')
 
     const solanaToEurRate = 1/80
     const solanaToUsdRate = 1/70
@@ -53,7 +54,7 @@ const Payment = () => {
     
         let { data, error, status } = await supabase
         .from('stores')
-        .select('wallet, name, description, id, totalprofit')
+        .select('wallet, name, description, id, totalprofit, owner')
         .eq('url', storeid)
         .single()
 
@@ -78,6 +79,7 @@ const Payment = () => {
         setStoreName(data.name)
         setDescription(data.description)
         setTotalProfit(data.totalprofit)
+        setStoreOwner(data.owner)
         setLoading(false)
 
         
@@ -105,7 +107,7 @@ const generateQr = async() => {
     const memo = 'Payment at' + storeName + '#2022' + Math.floor(Math.random(22,0));
     let splToken = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'
     if (currency === 'SOL') {
-        splToken = new PublicKey('So11111111111111111111111111111111111111112');
+        splToken = new PublicKey('');
     } else if (currency === 'USDC') {
         splToken = new PublicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v');
     } else if (currency === 'ETH') {
@@ -159,6 +161,17 @@ if (error) {
 }
 }
 
+const storePurchase3 = async(feepayer) => {
+  const { data, error } = await supabase
+  .from('customers')
+  .insert([
+  { store: storeOwner, wallet: feepayer },
+])
+if (error) {
+  console.log(error)
+}
+}
+
 useEffect(() => {
     qrCode?.append(ref.current)
 }, [modalIsOpen])
@@ -187,6 +200,8 @@ async function getTxnStatus(connection, reference) {
 
 
           storePurchase(signature, feepayer)
+          storePurchase2()
+          storePurchase3(feepayer)
 
           clearInterval(interval);
           resolve(signatureInfo);
@@ -243,13 +258,6 @@ async function getTxnStatus(connection, reference) {
                 <option value="ETH">Ethereum</option>
                 <option value="BTC">Bitcoin</option>
                 </select>
-                <input 
-                    type=""
-                    placeholder="Amount in $"
-                    className={styles.forminput}
-                    name="description"
-                    onChange={((e) => setDescription(e.target.value))}
-                />
             </div>
             <div className={styles.center}>
             <div className={styles.qrcode} ref={ref}>
