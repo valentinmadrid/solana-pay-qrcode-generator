@@ -18,8 +18,8 @@ const CustomerComponent = () => {
     setLoading(true)
     let { data, error, status } = await supabase
     .from('customers')
-    .select(`user, totalpaid`, `userid`)
-    .eq('userid', user.id)
+    .select(`created_at, store, wallet`)
+    .eq('store', user.id)
     console.log(data)
 
 
@@ -45,7 +45,7 @@ const CustomerComponent = () => {
       <thead>
         <tr>
           <th>Wallet Adress</th>
-          <th>Total Amount Paid</th>
+          <th>First Purchase</th>
 
         </tr>
       </thead>
@@ -55,7 +55,7 @@ const CustomerComponent = () => {
             customers.map((customers) => (
                 <tr className="tr" key={customers.id}>
                              <td>{customers.wallet}</td>
-                             <td>{customers.totalpaid}</td>
+                             <td>{customers.created_at}</td>
                          </tr>
                 ))}
       </tbody>
