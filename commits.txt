@@ -1,7 +1,0 @@
-✨: CSS/Styling
-🔧: General Code Update
-⚙️: Settings change
-🔥: Big release/push
-♻️: Rewrite Code
-🏜️: Update(dependencies etc..)
-❌: Delete something
