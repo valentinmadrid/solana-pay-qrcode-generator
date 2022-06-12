@@ -27,7 +27,7 @@ export default function Home() {
   const [storeName, setStoreName] = useState('');
   const [description, setDescription] = useState('');
   const [storeAdress, setStoreAdress] = useState('');
-  const [paymentAmount, setPaymentAmount] = useState('');
+  const [paymentAmount, setPaymentAmount] = useState(0);
   const [paymentCurrency, setPaymentCurrency] = useState('SOL');
   const [memo, setMemo] = useState('');
   const [isGenerated, setIsGenerated] = useState(false);
@@ -48,6 +48,7 @@ export default function Home() {
     if (isGenerated) {
       const payment_recipient = new PublicKey(storeAdress);
       const payment_amount = new BigNumber(paymentAmount);
+      console.log('f' + payment_amount);
       const payment_reference = new Keypair().publicKey;
       const payment_label = storeName;
       const payment_message = description;
@@ -76,7 +77,6 @@ export default function Home() {
       console.log(qrCode);
       console.log(ref.current);
       if (ref.current && payment_amount.isGreaterThan(0)) {
-        ref.current.innerHTML = '';
         qrCode.append(ref.current);
       }
     }
@@ -101,14 +101,16 @@ export default function Home() {
                         Store Name*
                       </label>
                       <input
-                        className='appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'
+                        className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'
                         type='text'
                         placeholder='Cheezy Chips'
                         onChange={(e) => setStoreName(e.target.value)}
                       />
-                      <p className='text-red-500 text-xs italic'>
-                        Please fill out this field.
-                      </p>
+                      {storeName.length < 1 ? (
+                        <p className='text-red-500 text-xs italic'>
+                          Please fill out this field.
+                        </p>
+                      ) : null}
                     </div>
                     <div className='w-full md:w-1/2 px-3'>
                       <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>
@@ -133,9 +135,11 @@ export default function Home() {
                         placeholder='0x0000000000000000000000000000000000000000'
                         onChange={(e) => setStoreAdress(e.target.value)}
                       />
-                      <p className='text-gray-600 text-xs italic'>
-                        Please enter a valid Solana adress
-                      </p>
+                      {storeAdress.length <= 43 ? (
+                        <p className='text-red-500 text-xs italic'>
+                          Please enter a valid Solana adress
+                        </p>
+                      ) : null}
                     </div>
                   </div>
                   <div className='flex flex-wrap -mx-3 mb-2'>
@@ -144,7 +148,11 @@ export default function Home() {
                         Payment Amount*
                       </label>
                       <input
-                        className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                        className={
+                          paymentAmount <= 0
+                            ? 'appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                            : 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                        }
                         type='number'
                         placeholder='1.00'
                         onChange={(e) => setPaymentAmount(e.target.value)}
