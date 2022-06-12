@@ -1,8 +1,27 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Form from '../components/form';
 import GeneratedContext from '../context/data';
+import BigNumber from 'bignumber.js';
+
+import {
+  Cluster,
+  clusterApiUrl,
+  Connection,
+  PublicKey,
+  Keypair,
+  Transaction,
+  Message,
+} from '@solana/web3.js';
+import {
+  encodeURL,
+  findTransactionSignature,
+  FindTransactionSignatureError,
+  createQR,
+} from '@solana/pay';
+
+import { useRef, useLayoutEffect } from 'react';
 
 export default function Home() {
   const [storeName, setStoreName] = useState('');
@@ -12,14 +31,56 @@ export default function Home() {
   const [paymentCurrency, setPaymentCurrency] = useState('SOL');
   const [memo, setMemo] = useState('');
   const [isGenerated, setIsGenerated] = useState(false);
+  let ref = useRef(null);
 
-  const showForm = () => {
-    setIsGenerated(false);
-  };
-  const showQR = () => {
-    console.log('show QR');
+  const showQR = (e) => {
+    e.preventDefault();
     setIsGenerated(true);
   };
+
+  const showForm = (e) => {
+    e.preventDefault();
+    setIsGenerated(false);
+    ref.current.innerHTML = '';
+  };
+
+  useEffect(() => {
+    if (isGenerated) {
+      const payment_recipient = new PublicKey(storeAdress);
+      const payment_amount = new BigNumber(paymentAmount);
+      const payment_reference = new Keypair().publicKey;
+      const payment_label = storeName;
+      const payment_message = description;
+      let r = (Math.random() + 1).toString(36).substring(7);
+      const payment_memo = '#' + r;
+
+      console.log(
+        payment_recipient,
+        payment_amount,
+        payment_reference,
+        payment_label,
+        payment_message,
+        payment_memo
+      );
+
+      const url = encodeURL({
+        recipient: payment_recipient,
+        amount: payment_amount,
+        reference: payment_reference,
+        label: payment_label,
+        message: payment_message,
+        memo: payment_memo,
+      });
+      console.log(url);
+      const qrCode = createQR(url);
+      console.log(qrCode);
+      console.log(ref.current);
+      if (ref.current && payment_amount.isGreaterThan(0)) {
+        ref.current.innerHTML = '';
+        qrCode.append(ref.current);
+      }
+    }
+  }, [isGenerated]);
 
   return (
     <GeneratedContext.Provider value={isGenerated}>
@@ -57,6 +118,7 @@ export default function Home() {
                         className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                         type='text'
                         placeholder='French Fries, Coke'
+                        onChange={(e) => setDescription(e.target.value)}
                       />
                     </div>
                   </div>
@@ -69,6 +131,7 @@ export default function Home() {
                         className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                         type='text'
                         placeholder='0x0000000000000000000000000000000000000000'
+                        onChange={(e) => setStoreAdress(e.target.value)}
                       />
                       <p className='text-gray-600 text-xs italic'>
                         Please enter a valid Solana adress
@@ -84,6 +147,7 @@ export default function Home() {
                         className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                         type='number'
                         placeholder='1.00'
+                        onChange={(e) => setPaymentAmount(e.target.value)}
                       />
                     </div>
                     <div className='w-full md:w-1/3 px-3 mb-6 md:mb-0'>
@@ -126,11 +190,22 @@ export default function Home() {
                     Generate
                   </button>
                 </form>
+                <div className='bg-gray-100 w-128 h-128' ref={ref}></div>
               </div>
             </div>
           </div>
         ) : (
-          <p>hello</p>
+          <div className='flex flex-col h-screen items-center'>
+            <div className='mt-10'>
+              <div className='' ref={ref}></div>
+              <button
+                className='flex flex-col items-center w-full bg-black text-white rounded-md mt-5 h-12 p-3'
+                onClick={showForm}
+              >
+                Generate new Code
+              </button>
+            </div>
+          </div>
         )}
       </div>
     </GeneratedContext.Provider>
