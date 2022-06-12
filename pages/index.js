@@ -192,10 +192,19 @@ export default function Home() {
                     </div>
                   </div>
                   <button
-                    className='flex flex-col items-center w-full bg-black text-white rounded-md mt-5 h-12 p-3'
+                    className={
+                      paymentAmount >= 0 && storeAdress.length >= 40
+                        ? 'flex flex-col items-center w-full bg-black text-white rounded-md mt-5 h-12 p-3'
+                        : 'flex flex-col items-center w-full bg-gray-600 text-white rounded-md mt-5 h-12 p-3'
+                    }
                     onClick={showQR}
+                    disabled={
+                      paymentAmount >= 0 && storeAdress.length >= 40
+                        ? false
+                        : true
+                    }
                   >
-                    Generate
+                    Generate a QR Code
                   </button>
                 </form>
                 <div className='bg-gray-100 w-128 h-128' ref={ref}></div>
