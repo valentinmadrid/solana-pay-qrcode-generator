@@ -8,9 +8,9 @@ import BigNumber from 'bignumber.js';
 import {
   Cluster,
   clusterApiUrl,
-  Connection,
   PublicKey,
   Keypair,
+  Connection,
   Transaction,
   Message,
 } from '@solana/web3.js';
@@ -32,6 +32,8 @@ export default function Home() {
   const [memo, setMemo] = useState('');
   const [isGenerated, setIsGenerated] = useState(false);
   let ref = useRef(null);
+
+  const connection = new Connection('https://api.devnet.solana.com');
 
   const showQR = (e) => {
     e.preventDefault();
@@ -105,6 +107,7 @@ export default function Home() {
                         type='text'
                         placeholder='Cheezy Chips'
                         onChange={(e) => setStoreName(e.target.value)}
+                        value={storeName}
                       />
                       {storeName.length < 1 ? (
                         <p className='text-red-500 text-xs italic'>
@@ -121,6 +124,7 @@ export default function Home() {
                         type='text'
                         placeholder='French Fries, Coke'
                         onChange={(e) => setDescription(e.target.value)}
+                        value={description}
                       />
                     </div>
                   </div>
@@ -134,6 +138,7 @@ export default function Home() {
                         type='text'
                         placeholder='0x0000000000000000000000000000000000000000'
                         onChange={(e) => setStoreAdress(e.target.value)}
+                        value={storeAdress}
                       />
                       {storeAdress.length <= 43 ? (
                         <p className='text-red-500 text-xs italic'>
@@ -156,6 +161,7 @@ export default function Home() {
                         type='number'
                         placeholder='1.00'
                         onChange={(e) => setPaymentAmount(e.target.value)}
+                        value={paymentAmount}
                       />
                     </div>
                     <div className='w-full md:w-1/3 px-3 mb-6 md:mb-0'>
@@ -188,6 +194,7 @@ export default function Home() {
                         type='text'
                         placeholder='#103053'
                         readOnly={true}
+                        value={memo}
                       />
                     </div>
                   </div>
